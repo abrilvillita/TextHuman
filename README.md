@@ -56,7 +56,7 @@ Open `index.html`. Production-only features require their configured services.
 
 ## Product film
 
-[![Watch the TextHuman product film](https://img.shields.io/badge/▶_Watch-Product_film-7c5cff?style=for-the-badge)](./TextHuman_Product_Film_Master.mp4)
+[![Watch the TextHuman product film](https://img.shields.io/badge/▶_Watch-Product_film-7c5cff?style=for-the-badge)](https://github.com/abrilvillita/TextHuman/raw/refs/heads/main/TextHuman_Product_Film_Master.mp4)
 
 A 20-second motion-design overview of the product experience and architecture. It uses fictional, sanitized interface data—no user, payment or administrative information is shown.
 
