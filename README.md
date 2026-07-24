@@ -1,63 +1,61 @@
+<div align="center">
+
 # TextHuman
+### AI-assisted SaaS for more natural Spanish writing
 
-AI-assisted web platform for transforming machine-like Spanish text into more
-natural writing styles.
+[![Live](https://img.shields.io/badge/Live-humanizatexto.com-7c5cff?style=for-the-badge&logo=googlechrome&logoColor=white)](https://humanizatexto.com)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-f7df1e?style=for-the-badge&logo=javascript&logoColor=111)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-f38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ecf8e?style=for-the-badge&logo=supabase&logoColor=white)
 
-## Live product
+</div>
 
-[humanizatexto.com](https://humanizatexto.com)
+---
+
+## About
+TextHuman transforms machine-like Spanish text into writing that feels more natural across Latin America and Spain. I developed the product from idea to deployment, combining a responsive frontend, secure backend integrations, subscriptions, document processing and a custom domain.
 
 ## Highlights
-
-- Country-aware text rewriting
+- Country-aware rewriting styles
 - Text and document processing
+- Registration, login and password recovery
 - Free and Premium usage limits
-- User registration, login and password recovery
 - Mercado Pago checkout and webhook fulfillment
-- Discount-code management
+- Discount-code workflows and transactional email
 - Administrative analytics and user management
-- Automated transactional emails
-- Organic search indexing through a custom domain
-
-## Technology
-
-- HTML5, CSS3 and JavaScript
-- Cloudflare Workers
-- Supabase / PostgreSQL
-- Anthropic API
-- Mercado Pago API
-- Resend
-- GitHub Pages and custom DNS
+- SEO, custom DNS and responsive motion-focused UI
 
 ## Architecture
-
 ```text
-Browser
-   │
-   ▼
-Cloudflare Worker
-   ├── AI provider
-   ├── Mercado Pago
-   ├── Resend
-   └── Supabase
+Browser → Cloudflare Worker → AI provider
+                            ├→ Mercado Pago
+                            ├→ Resend
+                            └→ Supabase / PostgreSQL
 ```
+Sensitive database, payment and administrative operations are handled by the Worker. Production credentials are not stored in the browser.
 
-The browser never receives the database service-role credential. Sensitive
-database, payment and administrative operations are performed by the Worker.
+## Technology
+HTML5 · CSS3 · JavaScript · Cloudflare Workers · Supabase · PostgreSQL · Anthropic API · Mercado Pago · Resend · GitHub Pages
 
 ## Security
+- Secrets stored as Cloudflare environment variables
+- Server-side payment verification
+- Database access protected with RLS
+- Privileged operations routed through protected endpoints
+- No service-role credential committed to this repository
 
-- Production secrets are stored as Cloudflare environment variables.
-- Public database access is restricted with Row Level Security.
-- Payment identifiers are unique to prevent duplicate fulfillment.
-- Administrative operations require server-side authorization.
-- Password hashes are upgraded automatically to PBKDF2 when legacy users sign in.
-
-## Repository scope
-
-This repository contains the public web client. Production secrets, customer
-data and private administrative configuration are intentionally excluded.
+## Run locally
+```bash
+git clone https://github.com/abrilvillita/TextHuman.git
+cd TextHuman
+```
+Open `index.html`. Production-only features require their configured services.
 
 ## Status
+**Live and evolving.** The public repository documents the client application; production secrets remain private.
 
-Active personal project and continuously improving product.
+## Media
+A public walkthrough and sanitized screenshots can be added here without exposing user or payment information.
+
+---
+<div align="center">Built by [Abril Miranda Villa Márquez](https://github.com/abrilvillita)</div>
