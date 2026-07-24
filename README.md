@@ -54,8 +54,11 @@ Open `index.html`. Production-only features require their configured services.
 ## Status
 **Live and evolving.** The public repository documents the client application; production secrets remain private.
 
-## Media
-A public walkthrough and sanitized screenshots can be added here without exposing user or payment information.
+## Product film
+
+[![Watch the TextHuman product film](https://img.shields.io/badge/▶_Watch-Product_film-7c5cff?style=for-the-badge)](./TextHuman_Product_Film_Master.mp4)
+
+A 20-second motion-design overview of the product experience and architecture. It uses fictional, sanitized interface data—no user, payment or administrative information is shown.
 
 ---
 <div align="center">Built by [Abril Miranda Villa Márquez](https://github.com/abrilvillita)</div>
