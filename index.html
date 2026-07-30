@@ -1095,6 +1095,13 @@ let authMode='register';
   else{showPage('landing');}
   setInterval(tick,1000);
   setInterval(checkPremiumExpiry,60000);
+  // Mantener los cupos sincronizados aunque la pestaña permanezca abierta.
+  // Esto también recupera la UI si la primera consulta de estado falló.
+  setInterval(()=>{if(S.token)verifySession();},60000);
+  window.addEventListener('focus',()=>{if(S.token)verifySession();});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible'&&S.token)verifySession();
+  });
   const _params=new URLSearchParams(window.location.search);
   const _resetToken=_params.get('reset');
   const _payStatus=_params.get('pay');
@@ -1293,6 +1300,17 @@ function cntW(){const t=document.getElementById('inp').value.trim();document.get
 // ═══ HUMANIZE ═══
 async function doHumanize(){
   if(!S.token){openModal('login');return;}
+  // El servidor es la fuente de verdad para los cupos. La copia guardada en
+  // localStorage puede quedar obsoleta después de 24 h o de suspender la pestaña.
+  try{
+    const latest=await api('/status',{token:S.token});
+    applyServerData(latest);
+  }catch(e){
+    if(e.message==='Sesión expirada'||e.message==='Sin token'){
+      S.token=null;save();openModal('login');
+    }else toast('No pudimos comprobar tus intentos. Revisa tu conexión e intenta de nuevo.','w');
+    return;
+  }
   // Bloqueo permanente — mostrar mensaje especial
   if(S.permanentlyBlocked){
     document.getElementById('out').innerHTML=`<div style="padding:24px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.3);border-radius:12px;text-align:center">
