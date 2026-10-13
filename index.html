@@ -1395,7 +1395,7 @@ async function doHumanize(){
         <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $149 MXN →</button>
       </div>`;
     }
-    else out.innerHTML=`<div style="color:var(--red);padding:16px"><strong>Error al conectar con el servidor</strong><br><small style="color:var(--text3)">${e.message}</small><br><br><button class="bacc" style="margin-top:8px" onclick="openReport('humanizador_no_funciona')">📢 Reportar este error</button></div>`;
+    else {out.innerHTML='<div style="color:var(--red);padding:16px"><strong>Error al conectar con el servidor</strong><br><small style="color:var(--text3)" id="connection-error"></small><br><br><button class="bacc" style="margin-top:8px" onclick="openReport(\'humanizador_no_funciona\')">📢 Reportar este error</button></div>';document.getElementById('connection-error').textContent=e.message;}
   }
   document.getElementById('btnhum').disabled=false;
 }
@@ -1592,7 +1592,7 @@ function fillProfile(){
   if(!S.user)return;
   const ini=S.user.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
   document.getElementById('prav').textContent=ini;document.getElementById('prname').textContent=S.user.name;document.getElementById('premail').textContent=S.user.email;
-  document.getElementById('pr-name').innerHTML=S.user.name+' <button class="bsm" onclick="openEditName()">Editar</button>';
+  const nameEl=document.getElementById('pr-name');nameEl.textContent=S.user.name+' ';const editBtn=document.createElement('button');editBtn.className='bsm';editBtn.textContent='Editar';editBtn.addEventListener('click',openEditName);nameEl.append(editBtn);
   document.getElementById('pr-email').textContent=S.user.email;
   const c=CTRY.find(x=>x.code===S.country);
   document.getElementById('pr-ctry').innerHTML=(c?c.flag+' '+c.name:'No seleccionado')+' <button class="bsm" onclick="doNav(\'app\')">Cambiar</button>';
@@ -1645,8 +1645,8 @@ async function applyDiscount(){
   if(!code){toast('Ingresa un código','w');return;}
   if(!S.token){res.innerHTML='<span style="color:var(--yellow)">⚠️ Inicia sesión primero</span>';openModal('login');return;}
   const btn=document.querySelector('#disc-ov .btn-p');btn.textContent='Aplicando...';btn.disabled=true;
-  try{const r=await api('/apply-discount',{token:S.token,code});res.innerHTML='<span style="color:var(--green)">✅ '+(r.desc||'Descuento aplicado')+'</span>';applyServerData(r);setTimeout(()=>{closeModal('disc-ov');activatePremiumUI();toast('🎉 '+(r.desc||'Descuento aplicado'),'s');},1000);}
-  catch(e){res.innerHTML='<span style="color:var(--red)">❌ '+e.message+'</span>';}
+  try{const r=await api('/apply-discount',{token:S.token,code});res.innerHTML='<span style="color:var(--green)"></span>';res.firstElementChild.textContent='✅ '+(r.desc||'Descuento aplicado');applyServerData(r);setTimeout(()=>{closeModal('disc-ov');activatePremiumUI();toast('🎉 '+(r.desc||'Descuento aplicado'),'s');},1000);}
+  catch(e){res.innerHTML='<span style="color:var(--red)"></span>';res.firstElementChild.textContent='❌ '+e.message;}
   finally{btn.textContent='✅ Aplicar código';btn.disabled=false;}
 }
 
