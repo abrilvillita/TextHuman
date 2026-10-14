@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TextHuman — Mejora la Naturalidad de tus Textos con IA para Latinoamérica y España</title>
-<meta name="description" content="Mejora la naturalidad y fluidez de textos escritos con IA. Con el estilo de México, Argentina, Colombia, España y 20+ países. Herramienta de redacción natural gratis.">
+<title>TextHuman — Revisión de texto con reglas, sin IA</title>
+<meta name="description" content="Revisa texto y documentos en tu navegador con reglas de JavaScript. Sin llamadas a modelos de IA ni consumo de créditos de procesamiento.">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9235162446939582" crossorigin="anonymous"></script>
 <meta name="keywords" content="mejorar redacción con IA, texto natural y fluido, humanizador de redacción, mejorar estilo de escritura, redacción natural, México, Argentina, Colombia, España">
 <meta name="robots" content="index, follow">
@@ -375,9 +375,12 @@ textarea.ta::placeholder{color:var(--text3)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="jszip.min.js"></script>
 <script src="office-reader.js"></script>
+<script src="rules-engine.js"></script>
 <script src="pricing.js"></script>
 <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-</head>
+<style>
+#adv-section,.pg,#cfg-purpose-lbl,#cfg-country-lbl,#ctry-grid,#nwarn,.uw,.bbar,.renew-bar,#p-plans .plw,#p-plans .pl-grid,#p-plans .plg{display:none!important}
+</style></head>
 <body>
 <div class="bg-mesh"></div>
 <div class="bg-grid"></div>
@@ -425,7 +428,7 @@ textarea.ta::placeholder{color:var(--text3)}
 <div id="p-landing" class="page active">
   <span class="tag">✦ Mejora la naturalidad de tus textos para Latinoamérica y España</span>
   <h1 class="h1" id="landing-h1">Tu texto,<br><em id="landing-h1-em">voz humana</em></h1>
-  <p class="sub" id="landing-sub">Convierte texto de IA en redacciones naturales y auténticas. Con la jerga y estilo de tu país.</p>
+  <p class="sub" id="landing-sub">Limpia formato y simplifica frases con reglas locales. Sin llamadas a modelos de IA.</p>
   <div class="ctas">
     <button class="btn btn-p btn-lg nav-reg-btn" onclick="openModal('register')" id="landing-cta">✨ Comenzar gratis →</button>
     <button class="btn btn-g btn-lg" onclick="doNav('plans')" id="landing-plans-btn">Ver planes</button>
@@ -449,7 +452,7 @@ textarea.ta::placeholder{color:var(--text3)}
 <div id="p-app" class="page">
   <div class="ah">
     <div class="at">Hola, <span id="greet">usuario</span> 👋</div>
-    <div class="asb" id="app-sub">¿Qué texto mejoramos hoy?</div>
+    <div class="asb" id="app-sub">Revisión de texto sin IA</div>
   </div>
 
   <div class="renew-bar" id="renew-bar">
@@ -678,7 +681,7 @@ textarea.ta::placeholder{color:var(--text3)}
 <div id="p-plans" class="page">
   <div style="max-width:860px;margin:0 auto;padding:85px 20px 60px;text-align:center">
   <button onclick="doNav(S.token?'app':'landing')" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;margin-bottom:16px;font-family:'DM Sans',sans-serif" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'">← Inicio</button>
-  <div class="plt" id="plans-title">Elige tu plan</div>
+  <div class="plt" id="plans-title">Editor local, sin consumo de IA</div>
   <p class="pls" id="plans-sub">Comienza gratis, pasa a premium cuando lo necesites.</p>
   <div class="plg">
     <div class="plc">
@@ -730,7 +733,7 @@ textarea.ta::placeholder{color:var(--text3)}
     <p class="legal-date">Última actualización: 14 de octubre de 2026</p>
     <div class="legal-body">
       <section><h2>1. Quiénes somos</h2><p>TextHuman (humanizatexto.com) es un servicio en línea que ayuda a mejorar la naturalidad y fluidez de textos escritos. Operamos desde México y atendemos usuarios de Latinoamérica y España.</p></section>
-      <section><h2>2. Información que recopilamos</h2><p>Al registrarte recopilamos: nombre, correo electrónico y contraseña para autenticar tu cuenta. No recopilamos datos de pago directamente — los pagos se procesan a través de Mercado Pago.</p><p style="margin-top:10px">El servicio de reformulación con IA envía el texto al proveedor de procesamiento indicado (Anthropic). Evita introducir datos sensibles o información de terceros sin autorización. No se promete ausencia total de registros: los servicios de infraestructura y procesamiento pueden manejar registros operativos conforme a sus políticas. El laboratorio independiente sin IA procesa el texto localmente y no lo envía al proveedor de IA.</p></section>
+      <section><h2>2. Información que recopilamos</h2><p>Al registrarte recopilamos: nombre, correo electrónico y contraseña para autenticar tu cuenta. No recopilamos datos de pago directamente — los pagos se procesan a través de Mercado Pago.</p><p style="margin-top:10px">El editor actual procesa los textos en tu navegador y no los envía a un proveedor de IA. Las versiones anteriores utilizaban Anthropic; esta descripción histórica no aplica al editor local actual. Evita introducir datos sensibles o información de terceros sin autorización. No se promete ausencia total de registros: los servicios de infraestructura y procesamiento pueden manejar registros operativos conforme a sus políticas. El laboratorio independiente sin IA procesa el texto localmente y no lo envía al proveedor de IA.</p></section>
       <section><h2>3. Cómo usamos tu información</h2><p>Usamos tu información para: gestionar tu cuenta, procesar pagos, enviarte comunicaciones relacionadas con el servicio y mejorar la experiencia del usuario.</p></section>
       <section><h2>4. Cookies y tecnologías similares</h2><p>Usamos almacenamiento local (localStorage) para mantener tu sesión activa. No utilizamos cookies de seguimiento publicitario propias. Los anuncios de Google (AdSense) pueden utilizar cookies según sus propias políticas.</p></section>
       <section><h2>5. Compartir información con terceros</h2><p>No vendemos tu información personal. Compartimos datos solo con: <strong>Supabase</strong> (base de datos), <strong>Anthropic</strong> (procesamiento de texto), <strong>Mercado Pago</strong> (pagos) y <strong>Resend</strong> (correos transaccionales).</p></section>
@@ -750,12 +753,12 @@ textarea.ta::placeholder{color:var(--text3)}
     <p class="legal-date">Última actualización: 14 de octubre de 2026</p>
     <div class="legal-body">
       <section><h2>1. Aceptación de términos</h2><p>Al usar TextHuman aceptas estos términos. Si no estás de acuerdo, no uses el servicio.</p></section>
-      <section><h2>2. Descripción del servicio</h2><p>TextHuman es una herramienta de asistencia para mejorar la naturalidad, fluidez y estilo de textos escritos. El servicio utiliza inteligencia artificial para sugerir reformulaciones más naturales.</p></section>
+      <section><h2>2. Descripción del servicio</h2><p>TextHuman es una herramienta de asistencia para mejorar la naturalidad, fluidez y estilo de textos escritos. Desde el 14 de octubre de 2026 la revisión de textos de esta página utiliza reglas locales de JavaScript. Limpia formato y aplica sustituciones concretas de frases en español. No genera reformulaciones contextuales, anécdotas ni referencias nuevas. No envía el texto a un modelo de IA.</p></section>
       <section><h2>3. Uso responsable</h2><p>Eres responsable del contenido que procesas. No está permitido usar el servicio para: generar contenido ilegal, difamatario, fraudulento o que viole derechos de terceros.</p></section>
-      <section><h2>4. Plan gratuito y Premium</h2><p>El plan gratuito incluye hasta 2 textos y 1 archivo por día, con un máximo de 150 palabras por texto. Premium admite hasta 1,000 palabras por procesamiento. La interfaz contempla un límite de 20 mejoras por día y muestra los intentos disponibles; no es uso ilimitado. El lector de archivos admite hasta 5 MB y 200 páginas para PDF. Los PDF escaneados requieren OCR externo. DOCX y PPTX se convierten a texto: no se conserva el diseño del documento. Los límites o cambios materiales deben informarse antes de contratar o renovar; las modificaciones no se aplican retroactivamente para desconocer lo ya ofrecido en un periodo pagado.</p></section>
+      <section><h2>4. Plan gratuito y Premium</h2><p>El plan gratuito incluye hasta 2 textos y 1 archivo por día, con un máximo de 150 palabras por texto. Premium admite hasta 1,000 palabras por procesamiento. Esos límites corresponden al servicio anterior. El editor local actual admite hasta 100,000 caracteres y no consume intentos de IA ni requiere Premium. El lector de archivos admite hasta 5 MB y 200 páginas para PDF. Los PDF escaneados requieren OCR externo. DOCX y PPTX se convierten a texto: no se conserva el diseño del documento. Los límites o cambios materiales deben informarse antes de contratar o renovar; las modificaciones no se aplican retroactivamente para desconocer lo ya ofrecido en un periodo pagado.</p></section>
       <section><h2>5. Precio, pagos, aclaraciones y reembolsos</h2><p>El precio anunciado de Premium es <strong>$7.99 USD por 30 días</strong>. El equivalente en pesos mexicanos es orientativo y muestra la fecha de referencia; el tipo de cambio, moneda e importe final deben revisarse en el checkout de Mercado Pago antes de autorizar el pago. Las comisiones descontadas al proveedor no son el precio de compra del usuario.</p><p>La activación depende de la confirmación del pago por el proveedor de pagos; regresar al sitio desde el checkout no demuestra por sí solo que haya sido aprobado. Conserva tu comprobante y consulta la vigencia en tu cuenta.</p><p>Para solicitar aclaración o reembolso por cobro duplicado, pago sin activación, servicio no prestado o fallas atribuibles a TextHuman, escribe a <a href="mailto:texthumanapp@gmail.com">texthumanapp@gmail.com</a> con tu correo registrado, identificador del pago, fecha y descripción del problema. No envíes contraseñas, códigos de acceso ni el número completo de tu tarjeta.</p><p>Cada solicitud se evalúa según los hechos, lo ofrecido al comprar y la legislación aplicable. El uso previo o la activación del plan no eliminan los derechos que correspondan por ley. No se ofrece una garantía comercial de satisfacción ni un reembolso automático por una preferencia subjetiva, sin perjuicio de los derechos irrenunciables de la persona consumidora. Cuando proceda una devolución, se tramitará por el medio compatible con el pago original; el plazo de acreditación depende de Mercado Pago y de la entidad financiera.</p><p>La cancelación de una renovación y el reembolso de un pago ya realizado son solicitudes diferentes. Revisa si el checkout establece cobros recurrentes antes de autorizarlos; para aclaraciones sobre un cargo o renovación, utiliza el correo de soporte.</p></section>
       <section><h2>6. Propiedad intelectual</h2><p>Conservas todos los derechos sobre los textos que procesas. TextHuman no reclama propiedad sobre tu contenido.</p></section>
-      <section><h2>7. Limitación de responsabilidad</h2><p>TextHuman no garantiza que el texto procesado sea adecuado para ningún propósito específico. El usuario debe revisar el uso final del texto, datos y referencias. No se garantizan resultados ante detectores de IA, calificaciones ni adecuación automática a un contexto. Esta limitación no excluye obligaciones ni derechos irrenunciables previstos por la ley.</p></section>
+      <section><h2>7. Limitación de responsabilidad</h2><p>La revisión por reglas no comprende todo el contexto ni garantiza que cada sustitución sea adecuada para un propósito específico. El usuario debe revisar el uso final del texto, datos y referencias. No se garantizan resultados ante detectores de IA, calificaciones ni adecuación automática a un contexto. Esta limitación no excluye obligaciones ni derechos irrenunciables previstos por la ley.</p></section>
       <section><h2>8. Cambios al servicio</h2><p>Nos reservamos el derecho de modificar, suspender o discontinuar el servicio con previo aviso de 30 días.</p></section>
       <section><h2>9. Ley aplicable</h2><p>Estos términos se rigen por las leyes de México. Se conservan los derechos y vías de reclamación ante las autoridades competentes, incluida PROFECO cuando corresponda. Estos términos no implican renunciar a protecciones imperativas aplicables.</p></section>
     </div>
@@ -995,9 +998,9 @@ const SOURCES={
 };
 
 const LANGS={
-  es:{hum:'✨ Mejorar texto',lim:'Plan gratis: hasta 150 palabras',sub:'¿Qué texto mejoramos hoy?',
+  es:{hum:'✨ Mejorar texto',lim:'Plan gratis: hasta 150 palabras',sub:'Revisión de texto sin IA',
     nav_login:'Entrar',nav_reg:'Registro gratis',landing_h1:'Tu texto,',landing_em:'voz humana',
-    landing_sub:'Convierte texto de IA en redacciones naturales y auténticas. Con la jerga y estilo de tu país.',
+    landing_sub:'Limpia formato y simplifica frases con reglas locales. Sin llamadas a modelos de IA.',
     landing_cta:'✨ Comenzar gratis →',landing_plans:'Ver planes',
     landing_demo:'Inicia sesión para ver el texto completo y mejorar el tuyo →',
     plans_title:'Elige tu plan',plans_sub:'Comienza gratis, pasa a premium cuando lo necesites.',
@@ -1277,116 +1280,24 @@ function cntW(){const t=document.getElementById('inp').value.trim();document.get
 // ═══ HUMANIZE ═══
 async function doHumanize(){
   if(window._humanizeBusy)return;window._humanizeBusy=true;
+  const button=document.getElementById('btnhum');button.disabled=true;
   try{
-  if(!S.token){openModal('login');return;}
-  // El servidor es la fuente de verdad para los cupos. La copia guardada en
-  // localStorage puede quedar obsoleta después de 24 h o de suspender la pestaña.
-  try{
-    const latest=await api('/status',{token:S.token});
-    applyServerData(latest);
-  }catch(e){
-    if(e.message==='Sesión expirada'||e.message==='Sin token'){
-      S.token=null;save();openModal('login');
-    }else toast('No pudimos comprobar tus intentos. Revisa tu conexión e intenta de nuevo.','w');
-    return;
-  }
-  // Bloqueo permanente — mostrar mensaje especial
-  if(S.permanentlyBlocked){
-    document.getElementById('out').innerHTML=`<div style="padding:24px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.3);border-radius:12px;text-align:center">
-      <div style="font-size:36px;margin-bottom:12px">🔒</div>
-      <strong style="color:var(--red);font-size:16px">Cuenta bloqueada</strong>
-      <p style="color:var(--text2);font-size:13px;margin:10px 0;line-height:1.7">
-        Tu cuenta gratuita ha llegado al límite de tiempo de prueba.<br>
-        Para seguir usando TextHuman, activa <strong>Premium</strong>.
-      </p>
-      <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $7.99 USD →</button>
-    </div>`;
-    return;
-  }
-  if(S.plan==='premium'&&(!S.premiumUntil||new Date(S.premiumUntil)<=new Date())){S.plan='free';save();}
-  if(S.blocked){toast('Límite alcanzado. Espera o acelera el tiempo.','w');return;}
-  if(S._pendingFile&&S.plan!=='premium'){if(S.fileBlocked||S.filLeft<=0){setBlocked('file');showPremiumFlash();return;}}
-  let text=document.getElementById('inp').value.trim();
-  if(!text){toast('Escribe o pega un texto primero','w');return;}
-  if(S.plan!=='premium'){
-    if(S.blocked||S.txtLeft<=0){setBlocked('text');showPremiumFlash();return;}
-    const wc=text.split(/\s+/).filter(Boolean).length;
-    if(wc>150){document.getElementById('out').innerHTML=`<div style="padding:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;text-align:center"><div style="font-size:22px;margin-bottom:8px">⚡</div><strong style="color:var(--accent3)">Límite del plan gratis</strong><p style="color:var(--text2);font-size:13px;margin:8px 0">Tu texto tiene <strong>${wc} palabras</strong>. El plan gratis permite hasta <strong>150 palabras</strong>.<br>Reduce el texto o pasa a Premium.</p><button class="bup" style="margin-top:4px" onclick="doNav('plans')">Ver límites de Premium</button></div>`;return;}
-  }else{
-    const wc=text.split(/\s+/).filter(Boolean).length;
-    if(wc>1000){document.getElementById('out').innerHTML=`<div style="padding:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;text-align:center"><div style="font-size:22px;margin-bottom:8px">📏</div><strong style="color:var(--accent3)">Texto muy largo</strong><p style="color:var(--text2);font-size:13px;margin:8px 0">Tu texto tiene <strong>${wc} palabras</strong>. El máximo es <strong>1,000 palabras</strong> por mejora.<br>Divide el texto en partes.</p></div>`;return;}
-  }
-  if(!S.country)toast('Selecciona un país para mejores resultados 🌍','w');
-  if(!S.purpose)toast('Selecciona el tipo de texto arriba 📌','w');
-  const c=CTRY.find(x=>x.code===S.country);const cn=c?c.name:'neutro';const cw=c&&S.country!=='neutral'?(c.words[S.level]||[]).join(', '):'';
-  const ld={formal:'formal pero con naturalidad humana — evita sonar robótico',semi:'semi-informal y aprobatorio — claro y directo',casual:'casual y coloquial — como explicarle a un amigo'};
-  const purposeCtx={formal:'El texto es para un contexto académico o profesional. Debe sonar como una persona real.',semi:'El texto es para una tarea escolar. Debe sonar como un estudiante que entiende el tema.',casual:'El texto es para uso personal. Debe sonar completamente coloquial y humano.'};
-  const sourcesPrompt=buildSourcesPrompt();const expPrompt=buildExpPrompt();const antiPrompt=buildAntiPrompt();const povPrompt=buildPovPrompt();
-  const experienceHints=S.purpose?`\nCONTEXTO (${S.purpose}): ${purposeCtx[S.purpose]||purposeCtx.formal}\nNo atribuyas lecturas, opiniones ni experiencias que no haya suministrado el usuario.\nSolo si encajan naturalmente.`:'';
-  const sys=`Eres un mejorador de textos para estudiantes latinoamericanos. Reescribe el texto para que suene COMPLETAMENTE humano — como lo escribiría un estudiante real.\n\nELIMINA sin excepción:\n- Todos los emojis\n- Listas con viñetas o números → conviértelas en prosa corrida\n- Negritas y subtítulos → intégralos al texto natural\n- Frases típicas de IA: "En conclusión,", "En resumen,", "Cabe mencionar que", "Es importante destacar que", "En el ámbito de", "A lo largo de la historia", "Es fundamental comprender que", "En síntesis,", "Para finalizar,"\n- Estructura rígida intro-desarrollo-conclusión con etiquetas\n\nESCRIBE como humano real:\n- Alterna oraciones CORTAS y largas\n- Incluye pausas y muletillas naturales: "O sea,", "La verdad es que", "Lo que pasa es que", "Igual,", "De hecho,"\n- Permite oraciones que empiezan con "Y" o "Pero"\n- La conclusión debe fluir del último párrafo sin anunciarse\n- Nivel de formalidad: ${ld[S.level]||ld.formal}\n- País: ${cn}${cw?'. Integra naturalmente algunas de estas expresiones: '+cw:''}\n${experienceHints}${sourcesPrompt}${expPrompt}${antiPrompt}${povPrompt}\n\nConserva números, nombres propios, negaciones, hechos y referencias. No inventes experiencias ni fuentes. Devuelve SOLO el texto reescrito. Sin explicaciones ni comentarios.`;
-
-  const out=document.getElementById('out');
-  out.innerHTML='<div class="dots"><div class="d"></div><div class="d"></div><div class="d"></div></div>';
-  document.getElementById('btnhum').disabled=true;document.getElementById('btncpy').style.display='none';
-  const _det=document.getElementById('ai-detector-box');if(_det)_det.style.display='none';
-  try{
-    const endpoint=S._pendingFile?'/humanize-file':'/humanize';
-    const d=await api(endpoint,{token:S.token,text,system:sys});
-    S._pendingFile=false;
-    if(d.isPremium!==undefined)S.plan=d.isPremium?'premium':'free';
-    if(d.txtLeft!==undefined)S.txtLeft=d.txtLeft;
-    if(d.filLeft!==undefined){S.filLeft=d.filLeft;if(d.filLeft<=0){S.fileBlocked=true;S.fileBlockedUntil=new Date(Date.now()+24*3600*1000).toISOString();}}
-    if(d.txtLeft===0){S.blocked=true;S.blockedUntil=new Date(Date.now()+24*3600*1000).toISOString();}
-    save();refreshUsage();
-    if(typeof d.result!=='string'||!d.result.trim())throw new Error('El servidor no devolvió un texto. Contacta soporte si se descontó un intento.');
-    let html=d.result.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-    out.innerHTML='<div style="line-height:1.8">'+html+'</div>';
+    const text=document.getElementById('inp').value;
+    if(!text.trim()){toast('Escribe o importa un texto primero.','w');return;}
+    const result=TextHumanRules.revise(text,{simplify:S.lang==='es',tone:S.level,country:S.country});
+    const out=document.getElementById('out');out.replaceChildren();const rendered=document.createElement('div');rendered.style.cssText='white-space:pre-wrap;line-height:1.8';rendered.textContent=result.text;out.append(rendered);
     document.getElementById('btncpy').style.display='flex';
-    showAIDetector();
-    if(S.blocked)document.getElementById('bbar').style.display='flex';
-  }catch(e){
-    const isLimit=e.message==='LIMIT_TEXT';
-    const isFileLimit=e.message==='LIMIT_FILE';
-    const isPremiumDaily=e.message==='LIMIT_PREMIUM_DAILY';
-    const isPermanent=e.message==='PERMANENTLY_BLOCKED';
-    if(isLimit){setBlocked('text');out.innerHTML='';showPremiumFlash();}
-    else if(isFileLimit){setBlocked('file');out.innerHTML='';showPremiumFlash();}
-    else if(isPremiumDaily){
-      out.innerHTML=`<div style="padding:20px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:12px;text-align:center">
-        <div style="font-size:32px;margin-bottom:10px">⚡</div>
-        <strong style="color:var(--accent3);font-size:15px">Límite diario Premium alcanzado</strong>
-        <p style="color:var(--text2);font-size:13px;margin:10px 0;line-height:1.7">
-          Has usado tus 20 mejoras de texto del día. El límite se reinicia a medianoche (hora México).
-        </p>
-        <div style="background:var(--bg2);border-radius:8px;padding:10px;font-size:12px;color:var(--text3)">
-          ⏰ Vuelve mañana para usar tu nueva cuota de mejoras.
-        </div>
-      </div>`;
-    }
-    else if(isPermanent){
-      S.permanentlyBlocked=true;save();
-      out.innerHTML=`<div style="padding:24px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.3);border-radius:12px;text-align:center">
-        <div style="font-size:36px;margin-bottom:12px">🔒</div>
-        <strong style="color:var(--red);font-size:16px">Cuenta bloqueada</strong>
-        <p style="color:var(--text2);font-size:13px;margin:10px 0;line-height:1.7">
-          Tu cuenta gratuita ha llegado al límite de tiempo de prueba.<br>
-          Para seguir usando TextHuman, activa <strong>Premium</strong>.
-        </p>
-        <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $7.99 USD →</button>
-      </div>`;
-    }
-    else {out.innerHTML='<div style="color:var(--red);padding:16px"><strong>Error al conectar con el servidor</strong><br><small style="color:var(--text3)" id="connection-error"></small><br><br><button class="bacc" style="margin-top:8px" onclick="openReport(\'humanizador_no_funciona\')">📢 Reportar este error</button></div>';document.getElementById('connection-error').textContent=e.message;}
-  }
-  }finally{window._humanizeBusy=false;document.getElementById('btnhum').disabled=false;}
+    const note=document.getElementById('ai-detector-box');note.style.display='block';note.replaceChildren();const title=document.createElement('strong');title.textContent=result.changed?'Cambios realizados con reglas':'No se encontraron cambios con las reglas actuales';note.append(title);const summary=document.createElement('p');summary.style.cssText='font-size:12px;line-height:1.7;margin-top:8px';summary.textContent=result.changes.map(c=>c.rule+': '+c.count).join(' · ')||'El texto ya cumple las reglas de esta revisión.';note.append(summary);
+    S._pendingFile=false;
+  }catch(e){toast(e.message,'e');}
+  finally{window._humanizeBusy=false;button.disabled=false;}
 }
 
 // ═══ FILES ═══
 function dropF(e){e.preventDefault();document.getElementById('uplarea').classList.remove('drag');if(e.dataTransfer.files[0])procFile(e.dataTransfer.files[0]);}
 function handleF(e){if(e.target.files[0])procFile(e.target.files[0]);}
 async function procFile(file){
-  if(!S.user){openModal('login');return;}
-  if(S.fileBlocked){toast('Límite de archivos. Espera 24h o pasa a Premium.','w');return;}
-  if(S.plan==='free'&&S.filLeft<=0){setBlocked('file');return;}
+
   S._pendingFile=false;
   const ext='.'+file.name.split('.').pop().toLowerCase();
   if(!['.pdf','.docx','.pptx','.txt'].includes(ext)){toast('Formato no soportado. Usa PDF, DOCX, PPTX o TXT.','e');return;}
@@ -1401,7 +1312,7 @@ async function procFile(file){
       try{if(pdf.numPages>200)throw new Error('Máximo 200 páginas por documento.');const pages=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent();pages.push(tc.items.map(it=>it.str||'').join(' ').trim());page.cleanup();}content=pages.join('\n\n');}finally{await pdf.destroy();}
     }else content=await TextHumanOffice.extractOffice(await file.arrayBuffer(),ext);
     if(!content.trim()){toast('No se encontró texto. Los documentos escaneados necesitan OCR externo.','w');return;}
-    const max=S.plan==='premium'?1000:150,words=content.trim().split(/\s+/).length;
+    const max=20000,words=content.trim().split(/\s+/).length;
     document.getElementById('inp').value=content;cntW();S._pendingFile=true;
     toast(words>max?'Texto extraído completo: '+words+' palabras. Reduce o divide el texto antes de procesarlo (máximo '+max+').':'Texto extraído. Revísalo y presiona Mejorar cuando estés listo.','w');
   }catch(e){toast('No se pudo leer el archivo: '+e.message,'e');}
@@ -1666,6 +1577,26 @@ let tT;
 function toast(msg,type='s'){clearTimeout(tT);const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type==='e'?'te':type==='w'?'tw':'ts');tT=setTimeout(()=>t.classList.remove('show'),3500);}
 
 if(window.__runQueue)window.__runQueue();
+(function(){
+ openPayModal=function(){toast('El editor local actual no necesita una compra. Para tu plan anterior, contacta texthumanapp@gmail.com.','w')};
+ procPay=function(){openPayModal()};procAccelPay=function(){openPayModal()};
+ const localLabels=()=>{
+  document.getElementById('plans-title').textContent='Editor local, sin consumo de IA';document.getElementById('plans-sub').textContent='La revisión con reglas está disponible sin consumir intentos del servicio anterior. Para aclaraciones sobre un pago anterior: texthumanapp@gmail.com.';
+  const copy={feat1_title:'Reglas claras',feat1_desc:'Sustituciones concretas en español; no genera jerga nueva.',feat2_title:'Estilo de conectores',feat2_desc:'Cambios conservadores de frases y conectores según el tono.',feat3_title:'Texto y documentos',feat3_desc:'Importa PDF con texto, DOCX, PPTX o TXT hasta 5 MB.',feat4_title:'Sin IA',feat4_desc:'El texto se revisa en tu navegador, sin enviar contenido a modelos.'};
+  Object.entries(copy).forEach(([key,value])=>document.querySelectorAll('[data-i18n="'+key+'"]').forEach(e=>e.textContent=value));
+  const tag=document.querySelector('.ht');if(tag)tag.textContent='Código local, sin llamadas a IA';
+  const desc=document.querySelector('#p-landing .hd');if(desc)desc.textContent='Limpia formato y simplifica frases con reglas de código. Revisa todos los cambios antes de usar el resultado.';
+
+  document.getElementById('landing-h1').textContent='Tu texto, más claro.';
+  const sub=document.querySelector('.landing-sub, .hero-sub, .hs');if(sub)sub.textContent='Revisión con reglas de código. Sin IA. Tu texto se procesa en este navegador.';
+  document.getElementById('landing-cta').textContent='Abrir editor sin IA';document.getElementById('landing-cta').onclick=()=>showPage('app');
+  document.getElementById('btnhum').textContent='Revisar con reglas';document.getElementById('pnote').textContent='Procesamiento local · hasta 100,000 caracteres';
+  document.querySelectorAll('#p-plans .bpl.buy,#p-plans .buy').forEach(b=>{b.textContent='Abrir editor local';b.onclick=()=>showPage('app');});
+ };
+ const previousApplyLang=applyLang;applyLang=function(){previousApplyLang();localLabels()};
+ localLabels();
+ const intro=document.createElement('div');intro.style.cssText='padding:16px;border:1px solid var(--border2);border-radius:12px;margin:18px 0;font-size:13px;line-height:1.7;color:var(--text2)';intro.textContent='Sin IA: limpia espacios y propone cambios de frases en español con reglas transparentes. No inventa fuentes ni experiencias, ni reescribe todo el contexto. Revisa el resultado antes de usarlo.';document.querySelector('#p-app .ah').after(intro);
+})();
 </script>
 </body>
 </html>
