@@ -35,7 +35,7 @@
   "operatingSystem": "Web",
   "offers": [
     {"@type":"Offer","price":"0","priceCurrency":"MXN","description":"Plan gratuito"},
-    {"@type":"Offer","price":"149","priceCurrency":"MXN","description":"Plan Premium 30 días"}
+    {"@type":"Offer","price":"7.99","priceCurrency":"USD","description":"Plan Premium 30 días"}
   ],
   "inLanguage": "es",
   "audience": {"@type":"EducationalAudience","educationalRole":"student"},
@@ -373,6 +373,9 @@ textarea.ta::placeholder{color:var(--text3)}
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="jszip.min.js"></script>
+<script src="office-reader.js"></script>
+<script src="pricing.js"></script>
 <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 </head>
 <body>
@@ -453,7 +456,7 @@ textarea.ta::placeholder{color:var(--text3)}
     <span style="font-size:22px">⚠️</span>
     <div style="flex:1">
       <div style="font-size:14px;font-weight:600;color:var(--yellow)" id="renew-title">Tu Premium vence pronto</div>
-      <div style="font-size:12px;color:var(--text2)" id="renew-sub">Renueva para no perder el acceso ilimitado.</div>
+      <div style="font-size:12px;color:var(--text2)" id="renew-sub">Renueva para mantener la cuota Premium.</div>
     </div>
     <button class="bup" onclick="openPayModal()">🔄 Renovar Premium</button>
   </div>
@@ -625,39 +628,10 @@ textarea.ta::placeholder{color:var(--text3)}
       </div>
     </div>
 
-    <!-- ANÁLISIS DE NATURALIDAD -->
-    <div id="ai-detector-box" style="display:none;margin-top:16px;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:20px 24px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-        <div style="width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)"></div>
-        <span style="font-weight:700;font-size:14px">Análisis de naturalidad del texto</span>
-        <span style="margin-left:auto;background:rgba(34,211,165,.15);color:var(--green);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(34,211,165,.3)">✓ TEXTO NATURAL</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:12px;color:var(--text2);min-width:200px">Naturalidad del lenguaje</span>
-          <div style="flex:1;height:6px;background:var(--bg2);border-radius:10px;overflow:hidden"><div id="det-human-bar" style="height:100%;background:linear-gradient(90deg,var(--green),#34d399);border-radius:10px;transition:width 1.2s ease;width:0%"></div></div>
-          <span id="det-human-val" style="font-size:13px;font-weight:700;color:var(--green);min-width:40px;text-align:right">0%</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:12px;color:var(--text2);min-width:200px">Índice de fluidez semántica</span>
-          <div style="flex:1;height:6px;background:var(--bg2);border-radius:10px;overflow:hidden"><div id="det-fluency-bar" style="height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:10px;transition:width 1.4s ease;width:0%"></div></div>
-          <span id="det-fluency-val" style="font-size:13px;font-weight:700;color:var(--accent2);min-width:40px;text-align:right">0%</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:12px;color:var(--text2);min-width:200px">Patrón sintáctico</span>
-          <div style="flex:1;height:6px;background:var(--bg2);border-radius:10px;overflow:hidden"><div id="det-ai-bar" style="height:100%;background:linear-gradient(90deg,#ff4d6d,#f87171);border-radius:10px;transition:width 1.6s ease;width:0%"></div></div>
-          <span id="det-ai-val" style="font-size:13px;font-weight:700;color:#ff4d6d;min-width:40px;text-align:right">0%</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:12px;color:var(--text2);min-width:200px">Coherencia pragmática</span>
-          <div style="flex:1;height:6px;background:var(--bg2);border-radius:10px;overflow:hidden"><div id="det-coh-bar" style="height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:10px;transition:width 1.8s ease;width:0%"></div></div>
-          <span id="det-coh-val" style="font-size:13px;font-weight:700;color:#fbbf24;min-width:40px;text-align:right">0%</span>
-        </div>
-      </div>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:11px;color:var(--text3)">Análisis multiparamétrico v2.4</span>
-        <span id="det-overall" style="font-size:13px;font-weight:800;color:var(--green)">—</span>
-      </div>
+    <!-- Honest result note; no fabricated quality or detector scores. -->
+    <div id="ai-detector-box" role="status" style="display:none;margin-top:16px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:18px">
+      <strong>Revisa el resultado antes de utilizarlo</strong>
+      <p style="color:var(--text2);font-size:13px;line-height:1.7;margin-top:8px">TextHuman propone cambios de redacción. No mide la autoría humana ni garantiza resultados ante detectores de IA. Comprueba que conserve el significado, los datos y las referencias originales.</p>
     </div>
   </div>
 
@@ -717,24 +691,25 @@ textarea.ta::placeholder{color:var(--text3)}
         <li data-i18n="ff3">1 archivo por día</li>
         <li data-i18n="ff4">3 niveles de formalidad</li>
         <li id="feat-accel">3 aceleraciones de espera ($1.99 c/u)</li>
-        <li class="no" id="feat-unlimited">Textos y archivos ilimitados</li>
-        <li class="no" id="feat-export">Exportar como PDF/DOCX</li>
-        <li class="no" id="feat-history">Historial de humanizaciones</li>
+        <li class="no" id="feat-unlimited">Mayor cuota de procesamiento</li>
+        <li class="no" id="feat-export">Copiar resultado como texto</li>
+        <li class="no" id="feat-history">Resultados para copiar</li>
       </ul>
       <button class="bpl curr" id="btn-fplan">Plan actual</button>
     </div>
     <div class="plc feat">
       <div class="pln" id="prem-plan-name">Premium</div>
-      <div class="plp"><sup>$</sup>7.99<sub>/mes</sub></div>
-      <div class="pld">Para quienes necesitan mejorar textos a diario, sin límites.</div>
+      <div class="plp"><sup>$</sup>7.99<sub> USD / 30 días</sub></div>
+      <p class="mxn-reference" style="font-size:12px;color:var(--text2);line-height:1.6">Consultando equivalente orientativo en MXN…</p>
+      <div class="pld">Para quienes necesitan una mayor cuota de revisión de textos.</div>
       <ul class="plf">
-        <li data-i18n="pf1">Textos ilimitados (sin límite de palabras)</li>
-        <li data-i18n="pf2">Intentos y archivos ilimitados</li>
-        <li data-i18n="pf3">PDF, DOCX, PPTX sin restricción</li>
+        <li data-i18n="pf1">Hasta 1,000 palabras por procesamiento</li>
+        <li data-i18n="pf2">Hasta 20 mejoras por día; consulta tu contador</li>
+        <li data-i18n="pf3">PDF, DOCX, PPTX y TXT hasta 5 MB</li>
         <li data-i18n="pf4">Los 36 países de referencia</li>
-        <li data-i18n="pf5">Exportar resultado como PDF/DOCX</li>
-        <li data-i18n="pf6">Historial completo</li>
-        <li data-i18n="pf7">Procesamiento prioritario</li>
+        <li data-i18n="pf5">Copiar o resultado como texto</li>
+        <li data-i18n="pf6">Conserva tus resultados copiándolos</li>
+        <li data-i18n="pf7">Configuración de estilo y formalidad</li>
         <li data-i18n="pf8">Soporte por email</li>
       </ul>
       <button class="bpl buy" id="btn-bplan" onclick="openPayModal()">🚀 Obtener Premium — $7.99 USD/mes</button>
@@ -752,15 +727,15 @@ textarea.ta::placeholder{color:var(--text3)}
   <div class="legal-page">
     <button onclick="doNav(S.token?'app':'landing')" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;margin-bottom:24px;font-family:'DM Sans',sans-serif">← Inicio</button>
     <h1>Política de Privacidad</h1>
-    <p class="legal-date">Última actualización: Abril 2025</p>
+    <p class="legal-date">Última actualización: 14 de octubre de 2026</p>
     <div class="legal-body">
       <section><h2>1. Quiénes somos</h2><p>TextHuman (humanizatexto.com) es un servicio en línea que ayuda a mejorar la naturalidad y fluidez de textos escritos. Operamos desde México y atendemos usuarios de Latinoamérica y España.</p></section>
-      <section><h2>2. Información que recopilamos</h2><p>Al registrarte recopilamos: nombre, correo electrónico y contraseña (almacenada de forma cifrada). No recopilamos datos de pago directamente — los pagos se procesan a través de Mercado Pago.</p><p style="margin-top:10px">Los textos que ingresas son procesados por la API de Anthropic y <strong>no son almacenados permanentemente</strong> en nuestros servidores.</p></section>
+      <section><h2>2. Información que recopilamos</h2><p>Al registrarte recopilamos: nombre, correo electrónico y contraseña para autenticar tu cuenta. No recopilamos datos de pago directamente — los pagos se procesan a través de Mercado Pago.</p><p style="margin-top:10px">El servicio de reformulación con IA envía el texto al proveedor de procesamiento indicado (Anthropic). Evita introducir datos sensibles o información de terceros sin autorización. No se promete ausencia total de registros: los servicios de infraestructura y procesamiento pueden manejar registros operativos conforme a sus políticas. El laboratorio independiente sin IA procesa el texto localmente y no lo envía al proveedor de IA.</p></section>
       <section><h2>3. Cómo usamos tu información</h2><p>Usamos tu información para: gestionar tu cuenta, procesar pagos, enviarte comunicaciones relacionadas con el servicio y mejorar la experiencia del usuario.</p></section>
       <section><h2>4. Cookies y tecnologías similares</h2><p>Usamos almacenamiento local (localStorage) para mantener tu sesión activa. No utilizamos cookies de seguimiento publicitario propias. Los anuncios de Google (AdSense) pueden utilizar cookies según sus propias políticas.</p></section>
       <section><h2>5. Compartir información con terceros</h2><p>No vendemos tu información personal. Compartimos datos solo con: <strong>Supabase</strong> (base de datos), <strong>Anthropic</strong> (procesamiento de texto), <strong>Mercado Pago</strong> (pagos) y <strong>Resend</strong> (correos transaccionales).</p></section>
-      <section><h2>6. Tus derechos</h2><p>Tienes derecho a acceder, corregir o eliminar tu información personal. Para ejercer estos derechos contáctanos en <a href="mailto:texthumanapp@gmail.com" style="color:var(--accent2)">texthumanapp@gmail.com</a>.</p></section>
-      <section><h2>7. Seguridad</h2><p>Implementamos medidas técnicas para proteger tu información, incluyendo cifrado de contraseñas y comunicaciones HTTPS. Sin embargo, ningún sistema es 100% seguro.</p></section>
+      <section><h2>6. Tus derechos</h2><p>Puedes solicitar acceso, rectificación, cancelación u oposición al tratamiento de tus datos, así como información sobre cómo revocar tu consentimiento cuando proceda. Para ejercer estos derechos contáctanos en <a href="mailto:texthumanapp@gmail.com" style="color:var(--accent2)">texthumanapp@gmail.com</a>.</p></section>
+      <section><h2>7. Seguridad</h2><p>Implementamos medidas técnicas para proteger tu información, incluyendo comunicaciones HTTPS y controles de acceso. Sin embargo, ningún sistema es 100% seguro.</p></section>
       <section><h2>8. Cambios a esta política</h2><p>Podemos actualizar esta política ocasionalmente. Te notificaremos por correo sobre cambios significativos.</p></section>
       <section><h2>9. Contacto</h2><p>Para preguntas sobre esta política: <a href="mailto:texthumanapp@gmail.com" style="color:var(--accent2)">texthumanapp@gmail.com</a></p></section>
     </div>
@@ -772,17 +747,17 @@ textarea.ta::placeholder{color:var(--text3)}
   <div class="legal-page">
     <button onclick="doNav(S.token?'app':'landing')" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;margin-bottom:24px;font-family:'DM Sans',sans-serif">← Inicio</button>
     <h1>Términos y Condiciones</h1>
-    <p class="legal-date">Última actualización: Abril 2025</p>
+    <p class="legal-date">Última actualización: 14 de octubre de 2026</p>
     <div class="legal-body">
       <section><h2>1. Aceptación de términos</h2><p>Al usar TextHuman aceptas estos términos. Si no estás de acuerdo, no uses el servicio.</p></section>
       <section><h2>2. Descripción del servicio</h2><p>TextHuman es una herramienta de asistencia para mejorar la naturalidad, fluidez y estilo de textos escritos. El servicio utiliza inteligencia artificial para sugerir reformulaciones más naturales.</p></section>
       <section><h2>3. Uso responsable</h2><p>Eres responsable del contenido que procesas. No está permitido usar el servicio para: generar contenido ilegal, difamatario, fraudulento o que viole derechos de terceros.</p></section>
-      <section><h2>4. Plan gratuito y Premium</h2><p>El plan gratuito incluye hasta 2 textos y 1 archivo por día, con un máximo de 150 palabras por texto. El plan Premium ofrece uso ilimitado con hasta 1,000 palabras por procesamiento. Los límites pueden ajustarse con previo aviso.</p></section>
-      <section><h2>5. Pagos y reembolsos</h2><p>Los pagos se procesan a través de Mercado Pago. El plan Premium es mensual. No ofrecemos reembolsos una vez activado el plan, salvo por fallo técnico atribuible a nuestro servicio.</p></section>
+      <section><h2>4. Plan gratuito y Premium</h2><p>El plan gratuito incluye hasta 2 textos y 1 archivo por día, con un máximo de 150 palabras por texto. Premium admite hasta 1,000 palabras por procesamiento. La interfaz contempla un límite de 20 mejoras por día y muestra los intentos disponibles; no es uso ilimitado. El lector de archivos admite hasta 5 MB y 200 páginas para PDF. Los PDF escaneados requieren OCR externo. DOCX y PPTX se convierten a texto: no se conserva el diseño del documento. Los límites o cambios materiales deben informarse antes de contratar o renovar; las modificaciones no se aplican retroactivamente para desconocer lo ya ofrecido en un periodo pagado.</p></section>
+      <section><h2>5. Precio, pagos, aclaraciones y reembolsos</h2><p>El precio anunciado de Premium es <strong>$7.99 USD por 30 días</strong>. El equivalente en pesos mexicanos es orientativo y muestra la fecha de referencia; el tipo de cambio, moneda e importe final deben revisarse en el checkout de Mercado Pago antes de autorizar el pago. Las comisiones descontadas al proveedor no son el precio de compra del usuario.</p><p>La activación depende de la confirmación del pago por el proveedor de pagos; regresar al sitio desde el checkout no demuestra por sí solo que haya sido aprobado. Conserva tu comprobante y consulta la vigencia en tu cuenta.</p><p>Para solicitar aclaración o reembolso por cobro duplicado, pago sin activación, servicio no prestado o fallas atribuibles a TextHuman, escribe a <a href="mailto:texthumanapp@gmail.com">texthumanapp@gmail.com</a> con tu correo registrado, identificador del pago, fecha y descripción del problema. No envíes contraseñas, códigos de acceso ni el número completo de tu tarjeta.</p><p>Cada solicitud se evalúa según los hechos, lo ofrecido al comprar y la legislación aplicable. El uso previo o la activación del plan no eliminan los derechos que correspondan por ley. No se ofrece una garantía comercial de satisfacción ni un reembolso automático por una preferencia subjetiva, sin perjuicio de los derechos irrenunciables de la persona consumidora. Cuando proceda una devolución, se tramitará por el medio compatible con el pago original; el plazo de acreditación depende de Mercado Pago y de la entidad financiera.</p><p>La cancelación de una renovación y el reembolso de un pago ya realizado son solicitudes diferentes. Revisa si el checkout establece cobros recurrentes antes de autorizarlos; para aclaraciones sobre un cargo o renovación, utiliza el correo de soporte.</p></section>
       <section><h2>6. Propiedad intelectual</h2><p>Conservas todos los derechos sobre los textos que procesas. TextHuman no reclama propiedad sobre tu contenido.</p></section>
-      <section><h2>7. Limitación de responsabilidad</h2><p>TextHuman no garantiza que el texto procesado sea adecuado para ningún propósito específico. El usuario es responsable del uso final del contenido generado.</p></section>
+      <section><h2>7. Limitación de responsabilidad</h2><p>TextHuman no garantiza que el texto procesado sea adecuado para ningún propósito específico. El usuario debe revisar el uso final del texto, datos y referencias. No se garantizan resultados ante detectores de IA, calificaciones ni adecuación automática a un contexto. Esta limitación no excluye obligaciones ni derechos irrenunciables previstos por la ley.</p></section>
       <section><h2>8. Cambios al servicio</h2><p>Nos reservamos el derecho de modificar, suspender o discontinuar el servicio con previo aviso de 30 días.</p></section>
-      <section><h2>9. Ley aplicable</h2><p>Estos términos se rigen por las leyes de México. Cualquier disputa se resolverá en los tribunales competentes de México.</p></section>
+      <section><h2>9. Ley aplicable</h2><p>Estos términos se rigen por las leyes de México. Se conservan los derechos y vías de reclamación ante las autoridades competentes, incluida PROFECO cuando corresponda. Estos términos no implican renunciar a protecciones imperativas aplicables.</p></section>
     </div>
   </div>
 </div>
@@ -827,6 +802,7 @@ textarea.ta::placeholder{color:var(--text3)}
       <span id="pass-eye" style="font-size:15px">👁️</span>
       <span id="pass-label">Mostrar contraseña</span>
     </div>
+    <label style="display:block;font-size:12px;color:var(--text2);line-height:1.7;margin:12px 0"><input type="checkbox" id="legal-accept"> Al crear una cuenta acepto los <button type="button" onclick="closeModal('auth-ov');doNav('terms')" style="background:none;border:0;color:var(--accent2);text-decoration:underline">términos</button> y he leído el <button type="button" onclick="closeModal('auth-ov');doNav('privacy')" style="background:none;border:0;color:var(--accent2);text-decoration:underline">aviso de privacidad</button>. Solo se exige para registro.</label>
     <button class="btn btn-p" style="width:100%;justify-content:center;padding:13px;font-size:14px;font-weight:700;border-radius:10px" onclick="submitAuth()" id="m-submit">Crear cuenta gratis</button>
     <div class="msw" id="m-switch">¿Ya tienes cuenta? <a onclick="switchAuthMode('login')">Inicia sesión</a></div>
     <div class="forgot-link" id="m-forgot" style="display:none">¿Olvidaste tu contraseña? <a onclick="openForgot()">Recupérala aquí</a></div>
@@ -838,7 +814,7 @@ textarea.ta::placeholder{color:var(--text3)}
   <div class="modal" style="max-width:380px">
     <button class="mx" onclick="closeModal('forgot-ov')">✕</button>
     <div class="mt">🔑 Recuperar contraseña</div>
-    <p class="ms">Escríbenos con tu correo registrado y te la enviamos.</p>
+    <p class="ms">Indica tu correo registrado para solicitar un enlace de recuperación. Nunca enviamos tu contraseña.</p>
     <input class="field" type="email" id="forgot-email" placeholder="Tu correo registrado">
     <button id="forgot-btn" class="btn btn-p" style="width:100%;justify-content:center;padding:12px;font-size:14px;font-weight:700;border-radius:10px;margin-top:4px" onclick="sendForgot()">📨 Enviar enlace de recuperación</button>
     <div style="margin-top:14px;text-align:center;font-size:12px;color:var(--text3);line-height:1.7">Si no recibes el correo, revisa tu carpeta de spam.</div>
@@ -850,8 +826,10 @@ textarea.ta::placeholder{color:var(--text3)}
   <div class="modal">
     <button class="mx" onclick="closeModal('pay-ov')">✕</button>
     <div class="mt">💳 Pago seguro</div>
-    <p class="ms" id="pay-subtitle">Premium · $7.99 USD / mes · Cancela cuando quieras</p>
-    <div id="renew-info" style="display:none;background:rgba(34,211,165,.08);border:1px solid rgba(34,211,165,.25);border-radius:9px;padding:10px 13px;font-size:12px;color:var(--green);margin-bottom:14px;line-height:1.6">✅ Tu plan actual vence el <strong id="renew-date">—</strong>. Al renovar, se extenderá 30 días más desde hoy.</div>
+    <p class="ms" id="pay-subtitle">Premium · $7.99 USD / 30 días</p>
+    <p class="mxn-reference" style="font-size:12px;color:var(--text2);line-height:1.6">Consultando equivalente orientativo en MXN…</p>
+    <p style="font-size:12px;color:var(--text2)">Comprueba el importe final, moneda, periodo y cualquier cargo antes de autorizar en Mercado Pago. <button onclick="closeModal('pay-ov');doNav('terms')" style="background:none;border:0;color:var(--accent2);text-decoration:underline;cursor:pointer">Leer términos y reembolsos</button></p>
+    <div id="renew-info" style="display:none;background:rgba(34,211,165,.08);border:1px solid rgba(34,211,165,.25);border-radius:9px;padding:10px 13px;font-size:12px;color:var(--green);margin-bottom:14px;line-height:1.6">✅ Tu plan actual vence el <strong id="renew-date">—</strong>. Antes de renovar, revisa la vigencia actual y confirma cómo se aplicará el nuevo periodo en tu cuenta.</div>
     <button class="btn btn-p" style="width:100%;justify-content:center;padding:14px;font-size:15px;font-weight:700;margin-top:4px;border-radius:10px" onclick="procPay()">🔒 Ir a pagar — $7.99/mes</button>
     <div style="margin-top:14px;text-align:center;line-height:1.7;font-size:13px;color:var(--text2)">
       Serás redirigido al checkout seguro de Mercado Pago.<br>
@@ -931,9 +909,9 @@ textarea.ta::placeholder{color:var(--text3)}
       <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">✨ Botón Mejorar texto</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Pega tu texto a la izquierda y presiona Mejorar. Lo reescribimos para que suene como persona real con el estilo de tu país.</div></div>
       <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">🌍 País de referencia</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Elige tu país para usar expresiones y jerga local. Muy importante para que suene natural.</div></div>
       <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">🎚️ Nivel de formalidad</div><div style="font-size:13px;color:var(--text2);line-height:1.6"><strong>Formal</strong> → trabajos escolares · <strong>Informal</strong> → entregas relajadas · <strong>Casual</strong> → redes sociales.</div></div>
-      <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">🎭 Herramientas avanzadas</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Agrega anécdotas personales, cita fuentes reales, mejora la fluidez lingüística, y elige si el texto habla en "yo", "nosotros" o impersonal.</div></div>
+      <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">🎭 Herramientas avanzadas</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Integra experiencias y referencias que tú proporciones, revisa la fluidez lingüística, y elige si el texto habla en "yo", "nosotros" o impersonal.</div></div>
       <div style="background:var(--bg2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px">📎 Subir archivo</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Sube PDF, DOCX, PPTX o TXT. <strong>El intento se descuenta solo al presionar Mejorar</strong>, nunca al subir.</div></div>
-      <div style="background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--accent)">⚡ Gratis vs Premium</div><div style="font-size:13px;color:var(--text2);line-height:1.6"><strong>Gratis:</strong> 2 textos/día · 1 archivo/día · máx 150 palabras.<br><strong>Premium $7.99/mes:</strong> ilimitado · hasta 1,000 palabras · sin esperas.</div></div>
+      <div style="background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--accent)">⚡ Gratis vs Premium</div><div style="font-size:13px;color:var(--text2);line-height:1.6"><strong>Gratis:</strong> 2 textos/día · 1 archivo/día · máx 150 palabras.<br><strong>Premium $7.99 USD / 30 días:</strong> hasta 1,000 palabras por mejora · cuota diaria mostrada en tu cuenta.</div></div>
     </div>
   </div>
 </div>
@@ -968,7 +946,7 @@ textarea.ta::placeholder{color:var(--text3)}
   <div style="display:flex;gap:20px;flex-wrap:wrap">
     <a href="/blog.html" class="footer-link">Blog</a>
     <span class="footer-link" onclick="doNav('privacy')">Privacidad</span>
-    <span class="footer-link" onclick="doNav('terms')">Términos</span>
+    <span class="footer-link" onclick="doNav('terms')">Términos y reembolsos</span>
     <span class="footer-link" onclick="doNav('contact')">Contacto</span>
   </div>
 </footer>
@@ -1026,7 +1004,7 @@ const LANGS={
     free_name:'Gratis',prem_name:'Premium',free_desc:'Para probar la herramienta ocasionalmente.',
     feat_words:'Hasta 150 palabras por texto',feat_txt:'2 intentos de texto cada 24h',
     feat_files:'1 archivo por día',feat_accel:'3 aceleraciones de espera ($1.99 c/u)',
-    feat_unlimited:'Textos y archivos ilimitados',feat_export:'Exportar como PDF/DOCX',feat_history:'Historial de mejoras',
+    feat_unlimited:'Mayor cuota de procesamiento',feat_export:'Copiar resultado como texto',feat_history:'Resultados para copiar',
     btn_current:'Plan actual',btn_get:'🚀 Obtener Premium — $7.99 USD/mes',
     inp_ph:'Pega aquí el texto que quieres mejorar...',
     btn_copy:'📋 Copiar',cfg_purpose:'📌 ¿Para qué será tu texto?',cfg_level:'🎚️ Nivel de formalidad',cfg_country:'🌍 País de referencia',
@@ -1044,7 +1022,7 @@ const LANGS={
     free_name:'Free',prem_name:'Premium',free_desc:'For occasional use of the tool.',
     feat_words:'Up to 150 words per text',feat_txt:'2 text attempts per day',
     feat_files:'1 file per day',feat_accel:'3 speed-ups ($1.99 each)',
-    feat_unlimited:'Unlimited texts and files',feat_export:'Export as PDF/DOCX',feat_history:'Improvement history',
+    feat_unlimited:'Higher processing allowance',feat_export:'Copy result as text',feat_history:'Copy your results',
     btn_current:'Current plan',btn_get:'🚀 Get Premium — $7.99 USD/mo',
     inp_ph:'Paste the text you want to improve here...',
     btn_copy:'📋 Copy',cfg_purpose:'📌 What is your text for?',cfg_level:'🎚️ Formality level',cfg_country:'🌍 Reference country',
@@ -1062,7 +1040,7 @@ const LANGS={
     free_name:'Grátis',prem_name:'Premium',free_desc:'Para uso ocasional da ferramenta.',
     feat_words:'Até 150 palavras por texto',feat_txt:'2 tentativas de texto por dia',
     feat_files:'1 arquivo por dia',feat_accel:'3 acelerações ($1.99 cada)',
-    feat_unlimited:'Textos e arquivos ilimitados',feat_export:'Exportar como PDF/DOCX',feat_history:'Histórico de melhorias',
+    feat_unlimited:'Maior cota de processamento',feat_export:'Copiar resultado como texto',feat_history:'Resultados para copiar',
     btn_current:'Plano atual',btn_get:'🚀 Obter Premium — $7.99 USD/mês',
     inp_ph:'Cole aqui o texto que você quer melhorar...',
     btn_copy:'📋 Copiar',cfg_purpose:'📌 Para que será seu texto?',cfg_level:'🎚️ Nível de formalidade',cfg_country:'🌍 País de referência',
@@ -1074,9 +1052,9 @@ const LANGS={
 };
 
 const I18N={
-  es:{feat1_title:'36 países',feat1_desc:'Jerga real de México, Argentina, España, Colombia y más.',feat2_title:'3 niveles de tono',feat2_desc:'Formal, semi-informal o casual según tu texto.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Sube tu archivo y recibe el texto mejorado.',feat4_title:'Escritura de estilo humano auténtico',feat4_desc:'Metodología avanzada para que tu texto suene genuinamente natural.',demo_label:'Vista previa · México · Informal',cfg_title:'⚙ Configuración de escritura',upload_title:'Sube un archivo para mejorar',usage_txt:'Intentos texto',usage_fil:'Archivos hoy',usage_plan:'Plan activo',blocked_sub:'Se restablece en',per_month:'/mes',pf1:'Textos ilimitados (sin límite de palabras)',pf2:'Intentos y archivos ilimitados',pf3:'PDF, DOCX, PPTX sin restricción',pf4:'Los 36 países de referencia',pf5:'Exportar resultado como PDF/DOCX',pf6:'Historial completo de mejoras',pf7:'Procesamiento prioritario',pf8:'Soporte por email',ff3:'1 archivo por día',ff4:'3 niveles de formalidad'},
-  en:{feat1_title:'36 countries',feat1_desc:'Real slang from Mexico, Argentina, Spain, Colombia and more.',feat2_title:'3 tone levels',feat2_desc:'Formal, semi-informal or casual — your choice.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Upload your file and get the improved text.',feat4_title:'Authentic human-style writing',feat4_desc:'Advanced methodology to make your text sound genuinely natural.',demo_label:'Preview · Mexico · Informal',cfg_title:'⚙ Writing settings',upload_title:'Upload a file to improve',usage_txt:'Text attempts',usage_fil:'Files today',usage_plan:'Active plan',blocked_sub:'Resets in',per_month:'/mo',pf1:'Unlimited texts (no word limit)',pf2:'Unlimited attempts and files',pf3:'PDF, DOCX, PPTX without restriction',pf4:'All 36 reference countries',pf5:'Export result as PDF/DOCX',pf6:'Full improvement history',pf7:'Priority processing',pf8:'Email support',ff3:'1 file per day',ff4:'3 formality levels'},
-  pt:{feat1_title:'36 países',feat1_desc:'Gíria real do México, Argentina, Espanha, Colômbia e mais.',feat2_title:'3 níveis de tom',feat2_desc:'Formal, semi-informal ou casual — você escolhe.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Envie seu arquivo e receba o texto melhorado.',feat4_title:'Escrita de estilo humano autêntico',feat4_desc:'Metodologia avançada para que seu texto soe genuinamente natural.',demo_label:'Prévia · México · Informal',cfg_title:'⚙ Configuração de escrita',upload_title:'Envie um arquivo para melhorar',usage_txt:'Tentativas de texto',usage_fil:'Arquivos hoje',usage_plan:'Plano ativo',blocked_sub:'Reinicia em',per_month:'/mês',pf1:'Textos ilimitados (sem limite de palavras)',pf2:'Tentativas e arquivos ilimitados',pf3:'PDF, DOCX, PPTX sem restrição',pf4:'Todos os 36 países de referência',pf5:'Exportar resultado como PDF/DOCX',pf6:'Histórico completo de melhorias',pf7:'Processamento prioritário',pf8:'Suporte por email',ff3:'1 arquivo por dia',ff4:'3 níveis de formalidade'},
+  es:{feat1_title:'36 países',feat1_desc:'Jerga real de México, Argentina, España, Colombia y más.',feat2_title:'3 niveles de tono',feat2_desc:'Formal, semi-informal o casual según tu texto.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Sube tu archivo y recibe el texto mejorado.',feat4_title:'Escritura de estilo humano auténtico',feat4_desc:'Metodología avanzada para que tu texto suene genuinamente natural.',demo_label:'Vista previa · México · Informal',cfg_title:'⚙ Configuración de escritura',upload_title:'Sube un archivo para mejorar',usage_txt:'Intentos texto',usage_fil:'Archivos hoy',usage_plan:'Plan activo',blocked_sub:'Se restablece en',per_month:'/mes',pf1:'Hasta 1,000 palabras por procesamiento',pf2:'Hasta 20 mejoras por día; consulta tu contador',pf3:'PDF, DOCX, PPTX y TXT hasta 5 MB',pf4:'Los 36 países de referencia',pf5:'Copiar o resultado como texto',pf6:'Revisa y conserva tus resultados',pf7:'Configuración de estilo y formalidad',pf8:'Soporte por email',ff3:'1 archivo por día',ff4:'3 niveles de formalidad'},
+  en:{feat1_title:'36 countries',feat1_desc:'Real slang from Mexico, Argentina, Spain, Colombia and more.',feat2_title:'3 tone levels',feat2_desc:'Formal, semi-informal or casual — your choice.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Upload your file and get the improved text.',feat4_title:'Authentic human-style writing',feat4_desc:'Advanced methodology to make your text sound genuinely natural.',demo_label:'Preview · Mexico · Informal',cfg_title:'⚙ Writing settings',upload_title:'Upload a file to improve',usage_txt:'Text attempts',usage_fil:'Files today',usage_plan:'Active plan',blocked_sub:'Resets in',per_month:'/mo',pf1:'Up to 1,000 words per request',pf2:'Up to 20 improvements per day; check your counter',pf3:'PDF, DOCX, PPTX and TXT up to 5 MB',pf4:'All 36 reference countries',pf5:'Copy the result as text',pf6:'Review and keep your results',pf7:'Style and formality settings',pf8:'Email support',ff3:'1 file per day',ff4:'3 formality levels'},
+  pt:{feat1_title:'36 países',feat1_desc:'Gíria real do México, Argentina, Espanha, Colômbia e mais.',feat2_title:'3 níveis de tom',feat2_desc:'Formal, semi-informal ou casual — você escolhe.',feat3_title:'PDF, Word, PowerPoint',feat3_desc:'Envie seu arquivo e receba o texto melhorado.',feat4_title:'Escrita de estilo humano autêntico',feat4_desc:'Metodologia avançada para que seu texto soe genuinamente natural.',demo_label:'Prévia · México · Informal',cfg_title:'⚙ Configuração de escrita',upload_title:'Envie um arquivo para melhorar',usage_txt:'Tentativas de texto',usage_fil:'Arquivos hoje',usage_plan:'Plano ativo',blocked_sub:'Reinicia em',per_month:'/mês',pf1:'Até 1.000 palavras por solicitação',pf2:'Até 20 melhorias por dia; consulte seu contador',pf3:'PDF, DOCX, PPTX e TXT até 5 MB',pf4:'Todos os 36 países de referência',pf5:'Copiar o resultado como texto',pf6:'Revise e guarde seus resultados',pf7:'Configuração de estilo e formalidade',pf8:'Suporte por email',ff3:'1 arquivo por dia',ff4:'3 níveis de formalidade'},
 };
 
 const PROXY_URL='https://texthuman-api.mirandavilla341.workers.dev';
@@ -1106,7 +1084,7 @@ let authMode='register';
   const _resetToken=_params.get('reset');
   const _payStatus=_params.get('pay');
   if(_resetToken){window._resetToken=_resetToken;window.history.replaceState({},'',window.location.pathname);document.querySelectorAll('.page').forEach(p=>{p.style.display='none';p.classList.remove('active');});showPage('reset');}
-  else if(_payStatus==='ok'){window.history.replaceState({},'',window.location.pathname);toast('¡Pago exitoso! Tu plan se activará en unos segundos 🎉','s');if(S.token)setTimeout(verifySession,2000);}
+  else if(_payStatus==='ok'){window.history.replaceState({},'',window.location.pathname);toast('Regresaste del checkout. Estamos comprobando la confirmación del pago.','s');if(S.token)setTimeout(verifySession,2000);}
   else if(_payStatus==='fail'){window.history.replaceState({},'',window.location.pathname);toast('El pago no se completó. Intenta de nuevo.','w');}
   document.addEventListener('click',e=>{if(!e.target.closest('#dw'))document.getElementById('dm').classList.remove('open');});
   document.getElementById('logo').onclick=()=>S.token?doNav('app'):showPage('landing');
@@ -1122,8 +1100,8 @@ function checkPremiumExpiry(){
   if(S.plan!=='premium'||!S.premiumUntil)return;
   const now=new Date();const until=new Date(S.premiumUntil);const diffMs=until-now;const diffDays=diffMs/(1000*3600*24);
   const bar=document.getElementById('renew-bar');
-  if(diffMs<=0){S.plan='free';S.premiumUntil=null;save();refreshUsage();toast('Tu Premium ha vencido. ¡Renueva para seguir sin límites!','w');bar.classList.remove('show');return;}
-  if(diffDays<=3){const d=Math.ceil(diffDays);document.getElementById('renew-title').textContent=`Tu Premium vence en ${d} día${d!==1?'s':''}`;document.getElementById('renew-sub').textContent='Renueva ahora para no perder el acceso ilimitado.';bar.classList.add('show');document.getElementById('upgrade-btn').textContent='🔄 Renovar Premium';document.getElementById('upgrade-btn').onclick=openPayModal;}
+  if(diffMs<=0){S.plan='free';S.premiumUntil=null;save();refreshUsage();toast('Tu Premium ha vencido. Renueva para recuperar la cuota Premium.','w');bar.classList.remove('show');return;}
+  if(diffDays<=3){const d=Math.ceil(diffDays);document.getElementById('renew-title').textContent=`Tu Premium vence en ${d} día${d!==1?'s':''}`;document.getElementById('renew-sub').textContent='Renueva para mantener la cuota Premium.';bar.classList.add('show');document.getElementById('upgrade-btn').textContent='🔄 Renovar Premium';document.getElementById('upgrade-btn').onclick=openPayModal;}
 }
 
 async function verifySession(){
@@ -1141,10 +1119,14 @@ function applyServerData(r){
 }
 
 async function api(path,body){
-  const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const d=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(d.error||'Error '+r.status);
-  return d;
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),60000);
+  try{
+    const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:controller.signal});
+    const d=await r.json().catch(()=>{throw new Error('El servidor devolvió una respuesta no válida. Intenta de nuevo.');});
+    if(!r.ok)throw new Error(d.error||'Error '+r.status);
+    return d;
+  }catch(e){if(e.name==='AbortError')throw new Error('La solicitud tardó demasiado. Revisa el estado antes de volver a intentar un pago.');throw e;}
+  finally{clearTimeout(timer);}
 }
 
 function detectLang(){
@@ -1208,6 +1190,7 @@ function switchAuthMode(mode){document.getElementById('auth-ov').classList.remov
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 async function submitAuth(){
+  if(authMode==='register'&&!document.getElementById('legal-accept').checked){toast('Lee y acepta los términos y el aviso antes de registrarte.','w');return;}
   const email=document.getElementById('m-email').value.trim();const pass=document.getElementById('m-pass').value;
   if(!email){toast('Ingresa tu correo','w');return;}if(!pass||pass.length<6){toast('La contraseña debe tener al menos 6 caracteres','w');return;}
   if(authMode==='register'){
@@ -1259,20 +1242,14 @@ function selAnti(l){S.antiLevel=l;save();['low','med','high'].forEach(x=>{const 
 function selPov(p){S.pov=p;save();['yo','dupla','equipo','grupo','imp'].forEach(x=>{const el=document.getElementById('pov-'+x);if(el)el.classList.toggle('sel',x===p);});}
 
 function buildSourcesPrompt(){
-  const srcs=S.sources||[];const customSrc=(document.getElementById('src-custom')?.value||'').trim();
-  if(srcs.length===0&&!customSrc)return '';
-  const allPhrases=srcs.flatMap(k=>SOURCES[k]?.phrases||[]);const srcLabels=srcs.map(k=>SOURCES[k]?.label||k);
-  if(customSrc)srcLabels.push(customSrc);const samplePhrases=allPhrases.slice(0,5).join('", "');
-  return `\nFUENTES DE RELLENO: El alumno consultó: ${srcLabels.join(', ')}.\nIntegra naturalmente 1-3 referencias usando frases como: "${samplePhrases}".\nQue suene orgánico, nunca al inicio de párrafo ni forzado.`;
+  const custom=(document.getElementById('src-custom')?.value||'').trim();
+  if(!custom)return '\nNo inventes fuentes, autores, citas, enlaces ni afirmes que el usuario consultó una fuente.';
+  return `\nConserva únicamente las referencias que ya estén en el texto o que el usuario suministre expresamente: ${custom}. No inventes citas, datos bibliográficos ni consultas realizadas.`;
 }
-
 function buildExpPrompt(){
   if(!S.expActive)return '';
   const custom=(document.getElementById('exp-custom')?.value||'').trim();
-  const toneMap={auto:'Detecta el tono del texto y elige experiencias que encajen.',pos:'Usa experiencias POSITIVAS o entusiastas.',neg:'Usa experiencias de DIFICULTAD o esfuerzo.',neu:'Usa experiencias NEUTRALES o de curiosidad.'};
-  let prompt=`\nEXPERIENCIAS PERSONALES: ${toneMap[S.expTone||'auto']}\nAgrega 1-2 frases de experiencia personal que fluyan naturalmente en el texto.\nNUNCA las pongas como listas ni como oración aparte aislada.`;
-  if(custom)prompt+=`\nADEMÁS, incluye esta experiencia real del alumno de forma natural: "${custom}"`;
-  return prompt;
+  return custom?`\nPuedes integrar esta experiencia suministrada por el usuario, sin añadir hechos: ${custom}.`:'\nNo inventes experiencias personales del usuario.';
 }
 
 function buildAntiPrompt(){
@@ -1299,6 +1276,8 @@ function cntW(){const t=document.getElementById('inp').value.trim();document.get
 
 // ═══ HUMANIZE ═══
 async function doHumanize(){
+  if(window._humanizeBusy)return;window._humanizeBusy=true;
+  try{
   if(!S.token){openModal('login');return;}
   // El servidor es la fuente de verdad para los cupos. La copia guardada en
   // localStorage puede quedar obsoleta después de 24 h o de suspender la pestaña.
@@ -1320,7 +1299,7 @@ async function doHumanize(){
         Tu cuenta gratuita ha llegado al límite de tiempo de prueba.<br>
         Para seguir usando TextHuman, activa <strong>Premium</strong>.
       </p>
-      <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $149 MXN →</button>
+      <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $7.99 USD →</button>
     </div>`;
     return;
   }
@@ -1332,7 +1311,7 @@ async function doHumanize(){
   if(S.plan!=='premium'){
     if(S.blocked||S.txtLeft<=0){setBlocked('text');showPremiumFlash();return;}
     const wc=text.split(/\s+/).filter(Boolean).length;
-    if(wc>150){document.getElementById('out').innerHTML=`<div style="padding:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;text-align:center"><div style="font-size:22px;margin-bottom:8px">⚡</div><strong style="color:var(--accent3)">Límite del plan gratis</strong><p style="color:var(--text2);font-size:13px;margin:8px 0">Tu texto tiene <strong>${wc} palabras</strong>. El plan gratis permite hasta <strong>150 palabras</strong>.<br>Reduce el texto o pasa a Premium.</p><button class="bup" style="margin-top:4px" onclick="doNav('plans')">Ver Premium — sin límites</button></div>`;return;}
+    if(wc>150){document.getElementById('out').innerHTML=`<div style="padding:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;text-align:center"><div style="font-size:22px;margin-bottom:8px">⚡</div><strong style="color:var(--accent3)">Límite del plan gratis</strong><p style="color:var(--text2);font-size:13px;margin:8px 0">Tu texto tiene <strong>${wc} palabras</strong>. El plan gratis permite hasta <strong>150 palabras</strong>.<br>Reduce el texto o pasa a Premium.</p><button class="bup" style="margin-top:4px" onclick="doNav('plans')">Ver límites de Premium</button></div>`;return;}
   }else{
     const wc=text.split(/\s+/).filter(Boolean).length;
     if(wc>1000){document.getElementById('out').innerHTML=`<div style="padding:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;text-align:center"><div style="font-size:22px;margin-bottom:8px">📏</div><strong style="color:var(--accent3)">Texto muy largo</strong><p style="color:var(--text2);font-size:13px;margin:8px 0">Tu texto tiene <strong>${wc} palabras</strong>. El máximo es <strong>1,000 palabras</strong> por mejora.<br>Divide el texto en partes.</p></div>`;return;}
@@ -1343,8 +1322,8 @@ async function doHumanize(){
   const ld={formal:'formal pero con naturalidad humana — evita sonar robótico',semi:'semi-informal y aprobatorio — claro y directo',casual:'casual y coloquial — como explicarle a un amigo'};
   const purposeCtx={formal:'El texto es para un contexto académico o profesional. Debe sonar como una persona real.',semi:'El texto es para una tarea escolar. Debe sonar como un estudiante que entiende el tema.',casual:'El texto es para uso personal. Debe sonar completamente coloquial y humano.'};
   const sourcesPrompt=buildSourcesPrompt();const expPrompt=buildExpPrompt();const antiPrompt=buildAntiPrompt();const povPrompt=buildPovPrompt();
-  const experienceHints=S.purpose?`\nCONTEXTO (${S.purpose}): ${purposeCtx[S.purpose]||purposeCtx.formal}\nCuando sea natural puedes agregar: "según entendí", "a mi parecer", "según leí", "en mi opinión".\nSolo si encajan naturalmente.`:'';
-  const sys=`Eres un mejorador de textos para estudiantes latinoamericanos. Reescribe el texto para que suene COMPLETAMENTE humano — como lo escribiría un estudiante real.\n\nELIMINA sin excepción:\n- Todos los emojis\n- Listas con viñetas o números → conviértelas en prosa corrida\n- Negritas y subtítulos → intégralos al texto natural\n- Frases típicas de IA: "En conclusión,", "En resumen,", "Cabe mencionar que", "Es importante destacar que", "En el ámbito de", "A lo largo de la historia", "Es fundamental comprender que", "En síntesis,", "Para finalizar,"\n- Estructura rígida intro-desarrollo-conclusión con etiquetas\n\nESCRIBE como humano real:\n- Alterna oraciones CORTAS y largas\n- Incluye pausas y muletillas naturales: "O sea,", "La verdad es que", "Lo que pasa es que", "Igual,", "De hecho,"\n- Permite oraciones que empiezan con "Y" o "Pero"\n- La conclusión debe fluir del último párrafo sin anunciarse\n- Nivel de formalidad: ${ld[S.level]||ld.formal}\n- País: ${cn}${cw?'. Integra naturalmente algunas de estas expresiones: '+cw:''}\n${experienceHints}${sourcesPrompt}${expPrompt}${antiPrompt}${povPrompt}\n\nDevuelve SOLO el texto reescrito. Sin explicaciones ni comentarios.`;
+  const experienceHints=S.purpose?`\nCONTEXTO (${S.purpose}): ${purposeCtx[S.purpose]||purposeCtx.formal}\nNo atribuyas lecturas, opiniones ni experiencias que no haya suministrado el usuario.\nSolo si encajan naturalmente.`:'';
+  const sys=`Eres un mejorador de textos para estudiantes latinoamericanos. Reescribe el texto para que suene COMPLETAMENTE humano — como lo escribiría un estudiante real.\n\nELIMINA sin excepción:\n- Todos los emojis\n- Listas con viñetas o números → conviértelas en prosa corrida\n- Negritas y subtítulos → intégralos al texto natural\n- Frases típicas de IA: "En conclusión,", "En resumen,", "Cabe mencionar que", "Es importante destacar que", "En el ámbito de", "A lo largo de la historia", "Es fundamental comprender que", "En síntesis,", "Para finalizar,"\n- Estructura rígida intro-desarrollo-conclusión con etiquetas\n\nESCRIBE como humano real:\n- Alterna oraciones CORTAS y largas\n- Incluye pausas y muletillas naturales: "O sea,", "La verdad es que", "Lo que pasa es que", "Igual,", "De hecho,"\n- Permite oraciones que empiezan con "Y" o "Pero"\n- La conclusión debe fluir del último párrafo sin anunciarse\n- Nivel de formalidad: ${ld[S.level]||ld.formal}\n- País: ${cn}${cw?'. Integra naturalmente algunas de estas expresiones: '+cw:''}\n${experienceHints}${sourcesPrompt}${expPrompt}${antiPrompt}${povPrompt}\n\nConserva números, nombres propios, negaciones, hechos y referencias. No inventes experiencias ni fuentes. Devuelve SOLO el texto reescrito. Sin explicaciones ni comentarios.`;
 
   const out=document.getElementById('out');
   out.innerHTML='<div class="dots"><div class="d"></div><div class="d"></div><div class="d"></div></div>';
@@ -1359,6 +1338,7 @@ async function doHumanize(){
     if(d.filLeft!==undefined){S.filLeft=d.filLeft;if(d.filLeft<=0){S.fileBlocked=true;S.fileBlockedUntil=new Date(Date.now()+24*3600*1000).toISOString();}}
     if(d.txtLeft===0){S.blocked=true;S.blockedUntil=new Date(Date.now()+24*3600*1000).toISOString();}
     save();refreshUsage();
+    if(typeof d.result!=='string'||!d.result.trim())throw new Error('El servidor no devolvió un texto. Contacta soporte si se descontó un intento.');
     let html=d.result.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
     out.innerHTML='<div style="line-height:1.8">'+html+'</div>';
     document.getElementById('btncpy').style.display='flex';
@@ -1379,7 +1359,7 @@ async function doHumanize(){
           Has usado tus 20 mejoras de texto del día. El límite se reinicia a medianoche (hora México).
         </p>
         <div style="background:var(--bg2);border-radius:8px;padding:10px;font-size:12px;color:var(--text3)">
-          ⏰ Vuelve mañana para seguir mejorando textos sin límites.
+          ⏰ Vuelve mañana para usar tu nueva cuota de mejoras.
         </div>
       </div>`;
     }
@@ -1392,49 +1372,39 @@ async function doHumanize(){
           Tu cuenta gratuita ha llegado al límite de tiempo de prueba.<br>
           Para seguir usando TextHuman, activa <strong>Premium</strong>.
         </p>
-        <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $149 MXN →</button>
+        <button class="bup" style="margin-top:4px" onclick="openPayModal()">⚡ Activar Premium — $7.99 USD →</button>
       </div>`;
     }
     else {out.innerHTML='<div style="color:var(--red);padding:16px"><strong>Error al conectar con el servidor</strong><br><small style="color:var(--text3)" id="connection-error"></small><br><br><button class="bacc" style="margin-top:8px" onclick="openReport(\'humanizador_no_funciona\')">📢 Reportar este error</button></div>';document.getElementById('connection-error').textContent=e.message;}
   }
-  document.getElementById('btnhum').disabled=false;
+  }finally{window._humanizeBusy=false;document.getElementById('btnhum').disabled=false;}
 }
 
 // ═══ FILES ═══
 function dropF(e){e.preventDefault();document.getElementById('uplarea').classList.remove('drag');if(e.dataTransfer.files[0])procFile(e.dataTransfer.files[0]);}
 function handleF(e){if(e.target.files[0])procFile(e.target.files[0]);}
-function procFile(file){
+async function procFile(file){
   if(!S.user){openModal('login');return;}
   if(S.fileBlocked){toast('Límite de archivos. Espera 24h o pasa a Premium.','w');return;}
   if(S.plan==='free'&&S.filLeft<=0){setBlocked('file');return;}
+  S._pendingFile=false;
   const ext='.'+file.name.split('.').pop().toLowerCase();
   if(!['.pdf','.docx','.pptx','.txt'].includes(ext)){toast('Formato no soportado. Usa PDF, DOCX, PPTX o TXT.','e');return;}
-  toast('📄 Leyendo "'+file.name+'"...','s');
-  const r=new FileReader();
-  r.onload=async(ev)=>{
+  if(file.size>5*1024*1024){toast('El lector admite archivos de hasta 5 MB. Divide el documento.','w');return;}
+  toast('Leyendo "'+file.name+'"…','s');
+  try{
     let content='';
-    try{
-      if(ext==='.txt'){content=ev.target.result||'';}
-      else if(ext==='.pdf'){
-        const arr=new Uint8Array(ev.target.result);
-        if(typeof pdfjsLib==='undefined'){toast('pdf.js no cargó. Intenta recargar la página.','e');return;}
-        const pdf=await pdfjsLib.getDocument({data:arr}).promise;const pages=[];
-        for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent();const txt=tc.items.map(it=>it.str).join(' ').replace(/\s+/g,' ').trim();if(txt)pages.push(txt);}
-        content=pages.join('\n\n');
-      }else if(ext==='.docx'||ext==='.pptx'){
-        const arr2=new Uint8Array(ev.target.result);const str2=Array.from(arr2).map(b=>String.fromCharCode(b)).join('');
-        const matches=[...str2.matchAll(/<w:t[^>]*>([^<]+)<\/w:t>/g),...str2.matchAll(/<a:t[^>]*>([^<]+)<\/a:t>/g)];
-        content=matches.map(m=>m[1]).join(' ').replace(/\s+/g,' ').trim();
-      }
-    }catch(err){toast('Error al leer el archivo: '+err.message,'e');return;}
-    if(content&&content.trim().length>20){
-      const maxWords=S.plan==='premium'?1000:150;const words=content.trim().split(/\s+/).filter(Boolean);const truncated=words.length>maxWords;
-      document.getElementById('inp').value=truncated?words.slice(0,maxWords).join(' '):content;
-      if(truncated&&S.plan!=='premium')setTimeout(()=>{toast('Tu archivo tiene '+words.length+' palabras. Se recortó a 150. ¡Pasa a Premium para sin límites! ⚡','w');},500);
-      cntW();S._pendingFile=true;toast('✅ Texto extraído. Revisa y presiona Mejorar cuando estés listo.','s');
-    }else{toast('No se pudo extraer texto. Si es PDF escaneado (imagen), copia el texto manualmente.','w');}
-  };
-  if(ext==='.txt')r.readAsText(file,'utf-8');else r.readAsArrayBuffer(file);
+    if(ext==='.txt')content=await file.text();
+    else if(ext==='.pdf'){
+      if(typeof pdfjsLib==='undefined')throw new Error('pdf.js no cargó. Recarga la página.');
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false}).promise;
+      try{if(pdf.numPages>200)throw new Error('Máximo 200 páginas por documento.');const pages=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent();pages.push(tc.items.map(it=>it.str||'').join(' ').trim());page.cleanup();}content=pages.join('\n\n');}finally{await pdf.destroy();}
+    }else content=await TextHumanOffice.extractOffice(await file.arrayBuffer(),ext);
+    if(!content.trim()){toast('No se encontró texto. Los documentos escaneados necesitan OCR externo.','w');return;}
+    const max=S.plan==='premium'?1000:150,words=content.trim().split(/\s+/).length;
+    document.getElementById('inp').value=content;cntW();S._pendingFile=true;
+    toast(words>max?'Texto extraído completo: '+words+' palabras. Reduce o divide el texto antes de procesarlo (máximo '+max+').':'Texto extraído. Revísalo y presiona Mejorar cuando estés listo.','w');
+  }catch(e){toast('No se pudo leer el archivo: '+e.message,'e');}
 }
 
 // ═══ BLOCKED ═══
@@ -1465,7 +1435,8 @@ async function procAccelPay(){
   if(!S.token){toast('Inicia sesión primero','w');return;}
   const btn=document.querySelector('#accel-ov .btn-p');const origTxt=btn?.textContent||'⚡ Ir a pagar — $1.99';
   if(btn){btn.textContent='⏳ Generando pago...';btn.disabled=true;}
-  try{const r=await api('/create-preference',{token:S.token,type:'accel'});if(r.error)throw new Error(r.error);if(!r.init_point)throw new Error('No se pudo generar el link de pago');closeModal('accel-ov');window.open(r.init_point,'_blank');toast('Checkout abierto ⚡','s');startPaymentCheck();}
+  try{const r=await api('/create-preference',{token:S.token,type:'accel'});if(r.error)throw new Error(r.error);if(!r.init_point)throw new Error('No se pudo generar el link de pago');
+    const checkout=new URL(r.init_point);if(checkout.protocol!=='https:'||!/^([a-z0-9-]+\.)?mercadopago\.(com|com\.[a-z]{2}|[a-z]{2})$/i.test(checkout.hostname))throw new Error('El servidor devolvió un destino de pago no reconocido. Contacta soporte.');closeModal('accel-ov');window.open(r.init_point,'_blank');toast('Checkout abierto ⚡','s');startPaymentCheck();}
   catch(e){toast(e.message||'Error al generar pago','e');}
   finally{if(btn){btn.textContent=origTxt;btn.disabled=false;}}
 }
@@ -1479,19 +1450,14 @@ function showPremiumFlash(){
   if(document.getElementById('prem-flash'))return;
   const banner=document.createElement('div');banner.id='prem-flash';
   banner.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:500;background:linear-gradient(135deg,#7c5cfc,#a855f7);color:#fff;padding:16px 24px;border-radius:16px;box-shadow:0 8px 40px rgba(124,92,252,.6);display:flex;align-items:center;gap:14px;max-width:90vw;transition:transform .2s';
-  banner.innerHTML='<span style="font-size:22px">🚀</span><div><div style="font-weight:800;font-size:15px">¡Sin límites con Premium!</div><div style="font-size:12px;opacity:.85;margin-top:2px">Textos ilimitados · $7.99 USD/mes</div></div><button onclick="openPayModal()" style="background:#fff;color:#7c5cfc;border:none;padding:8px 16px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px;margin-left:8px;white-space:nowrap">Ver Premium →</button><button onclick="document.getElementById(\'prem-flash\').remove()" style="background:rgba(255,255,255,.2);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;margin-left:4px">×</button>';
+  banner.innerHTML='<span style="font-size:22px">🚀</span><div><div style="font-weight:800;font-size:15px">Más capacidad con Premium</div><div style="font-size:12px;opacity:.85;margin-top:2px">Hasta 1,000 palabras por mejora · $7.99 USD/mes</div></div><button onclick="openPayModal()" style="background:#fff;color:#7c5cfc;border:none;padding:8px 16px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px;margin-left:8px;white-space:nowrap">Ver Premium →</button><button onclick="document.getElementById(\'prem-flash\').remove()" style="background:rgba(255,255,255,.2);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;margin-left:4px">×</button>';
   document.body.appendChild(banner);
   setTimeout(()=>{if(banner.parentNode){banner.style.opacity='0';banner.style.transition='opacity .7s';}},7500);
   setTimeout(()=>{if(banner.parentNode)banner.remove();},8300);
 }
 
 function showAIDetector(){
-  const box=document.getElementById('ai-detector-box');if(!box)return;box.style.display='block';
-  const humanPct=Math.floor(Math.random()*9)+91;const fluencyPct=Math.floor(Math.random()*8)+88;const aiPct=Math.floor(Math.random()*6)+1;const cohPct=Math.floor(Math.random()*7)+2;
-  setTimeout(()=>{
-    document.getElementById('det-human-bar').style.width=humanPct+'%';document.getElementById('det-fluency-bar').style.width=fluencyPct+'%';document.getElementById('det-ai-bar').style.width=aiPct+'%';document.getElementById('det-coh-bar').style.width=cohPct+'%';
-    setTimeout(()=>{document.getElementById('det-human-val').textContent=humanPct+'%';document.getElementById('det-fluency-val').textContent=fluencyPct+'%';document.getElementById('det-ai-val').textContent=aiPct+'%';document.getElementById('det-coh-val').textContent=cohPct+'%';document.getElementById('det-overall').textContent=humanPct+'% Natural';},1200);
-  },300);
+  const box=document.getElementById('ai-detector-box');if(box)box.style.display='block';
 }
 
 function checkRPMatch(){
@@ -1514,7 +1480,7 @@ async function doResetPasswordPage(){
 function openPayModal(){
   const renewInfo=document.getElementById('renew-info');
   if(S.plan==='premium'&&S.premiumUntil){document.getElementById('renew-date').textContent=new Date(S.premiumUntil).toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});renewInfo.style.display='block';document.getElementById('pay-subtitle').textContent='Renovar Premium · $7.99 USD / 30 días más';}
-  else{renewInfo.style.display='none';document.getElementById('pay-subtitle').textContent='Premium · $7.99 USD / mes · 30 días · Tarjeta, OXXO o transferencia';}
+  else{renewInfo.style.display='none';document.getElementById('pay-subtitle').textContent='Premium · $7.99 USD / mes · 30 días · medios disponibles en Mercado Pago';}
   document.getElementById('pay-ov').classList.add('open');
 }
 async function procPay(){
@@ -1524,6 +1490,7 @@ async function procPay(){
     const r=await api('/create-preference',{token:S.token,type:'premium'});
     if(r.error)throw new Error(r.error);
     if(!r.init_point)throw new Error('No se pudo generar el link de pago');
+    const checkout=new URL(r.init_point);if(checkout.protocol!=='https:'||!/^([a-z0-9-]+\.)?mercadopago\.(com|com\.[a-z]{2}|[a-z]{2})$/i.test(checkout.hostname))throw new Error('El servidor devolvió un destino de pago no reconocido. Contacta soporte.');
     closeModal('pay-ov');
     window.open(r.init_point,'_blank');
     toast('Checkout abierto 🔒','s');
@@ -1534,9 +1501,9 @@ async function procPay(){
           <div style="font-size:36px;margin-bottom:10px">🏪</div>
           <strong style="color:var(--yellow);font-size:15px">¡Ya casi tienes Premium!</strong>
           <p style="color:var(--text2);font-size:13px;margin:10px 0;line-height:1.7">
-            Si elegiste pagar en <strong>OXXO, PayCash o transferencia</strong>, tu Premium se activará
+            Si el checkout te permitió elegir <strong>un medio de pago diferido</strong>, tu Premium se activará
             <strong style="color:var(--green)">automáticamente</strong> en cuanto se confirme tu pago.<br><br>
-            Esto puede tardar desde unos minutos hasta 24 horas.
+            La confirmación depende del medio de pago y del proveedor. Conserva el comprobante y contacta soporte si no se refleja en tu cuenta.
           </p>
           <div style="background:var(--bg2);border-radius:8px;padding:12px;font-size:12px;color:var(--text3)">
             💡 No necesitas hacer nada más. Cuando se confirme, tu cuenta se actualizará sola.
@@ -1553,7 +1520,7 @@ function activatePremiumUI(){
   document.getElementById('nav-badge').textContent='PREMIUM';document.getElementById('nav-badge').className='plan-badge bpr';
   document.getElementById('u-plan').textContent='Premium ⚡';document.getElementById('bbar').style.display='none';document.getElementById('renew-bar').classList.remove('show');
   document.getElementById('btn-fplan').textContent='Plan anterior';document.getElementById('btn-bplan').textContent='✓ Plan activo';document.getElementById('btn-bplan').className='bpl curr';
-  document.getElementById('pnote').textContent='Plan Premium: sin límites ✨';document.getElementById('upgrade-btn').textContent='⚡ Ir Premium';document.getElementById('upgrade-btn').onclick=()=>doNav('plans');
+  document.getElementById('pnote').textContent='Premium: hasta 1,000 palabras por mejora';document.getElementById('upgrade-btn').textContent='⚡ Ir Premium';document.getElementById('upgrade-btn').onclick=()=>doNav('plans');
   refreshUsage();fillProfile();toast('¡Bienvenido a Premium! 🚀 Todo desbloqueado.','s');doNav('app');
 }
 
@@ -1702,3 +1669,4 @@ if(window.__runQueue)window.__runQueue();
 </script>
 </body>
 </html>
+
