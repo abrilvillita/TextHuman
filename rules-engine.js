@@ -45,7 +45,7 @@ function revise(input,options={}){
  if(lang==='es'&&options.country&&options.country!=='neutral'){
  const region=REGIONS[options.country];if(region)GROUPS.forEach((terms,i)=>{if(i>=5&&tone!=='casual')return;const target=region[i];if(i===0){const masculine=target!=='computadora';const det=masculine?{la:'el',una:'un',esta:'este',esa:'ese',las:'los',unas:'unos',estas:'estos',esas:'esos'}:{el:'la',un:'una',este:'esta',ese:'esa',los:'las',unos:'unas',estos:'estas',esos:'esas'};for(const [a,b]of Object.entries(det)){for(const term of terms){phrase(a+' '+term,b+' '+target,'Concordancia regional');phrase(a+' '+term+'s',b+' '+target+'s','Concordancia regional');}}}const re=new RegExp('(?<![\\p{L}\\p{N}_])(?:'+terms.map(escapeRE).sort((a,b)=>b.length-a.length).join('|')+')(?![\\p{L}\\p{N}_])','giu');change(re,m=>/^[A-ZÁÉÍÓÚÑ]/.test(m)?target.charAt(0).toUpperCase()+target.slice(1):target,'País');});
  }
- change(/\b(Pero),[ \t]+(?=(?:no|sí|el|la|los|las|yo|nosotros|esto|eso)\b)/gi,'$1 ','Puntuación');
+ change(/\b(Pero),[ \t]+(?=(?:no|sí|el|la|los|las|yo|nosotros|esto|eso)\b)/gi,(m,word)=>word+' ','Puntuación');
  const pov=options.pov||'yo';
  if(options.povActive&&lang==='es'){
  const singular=[['consideramos que','considero que'],['pensamos que','pienso que'],['observamos que','observo que'],['podemos observar','puedo observar'],['concluimos que','concluyo que']];
