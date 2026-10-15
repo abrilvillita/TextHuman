@@ -375,11 +375,11 @@ textarea.ta::placeholder{color:var(--text3)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="jszip.min.js"></script>
 <script src="office-reader.js"></script>
-<script src="rules-engine.js"></script>
+<script src="rules-engine.js?v=20261014-linguistic2"></script>
 <script src="pricing.js"></script>
 <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 <style>
-#adv-section,.pg,#cfg-purpose-lbl,#cfg-country-lbl,#ctry-grid,#nwarn,.uw,.bbar,.renew-bar,#p-plans .plw,#p-plans .pl-grid,#p-plans .plg{display:none!important}
+.uw,.bbar,.renew-bar,#p-plans .plw,#p-plans .pl-grid,#p-plans .plg{display:none!important}
 </style></head>
 <body>
 <div class="bg-mesh"></div>
@@ -452,7 +452,7 @@ textarea.ta::placeholder{color:var(--text3)}
 <div id="p-app" class="page">
   <div class="ah">
     <div class="at">Hola, <span id="greet">usuario</span> 👋</div>
-    <div class="asb" id="app-sub">Tu espacio de escritura</div>
+    <div class="asb" id="app-sub">Personaliza el estilo de tu texto</div>
   </div>
 
   <div class="renew-bar" id="renew-bar">
@@ -510,7 +510,7 @@ textarea.ta::placeholder{color:var(--text3)}
     <div id="adv-lock-wrap" style="display:block">
 
       <!-- EXPERIENCIAS -->
-      <div class="sl" id="adv-exp-lbl-wrap">🎭 <span id="adv-exp-lbl">Experiencias</span> <span style="color:var(--text3);font-weight:400;font-size:12px">(opcional · la IA ajusta el tono según el texto)</span></div>
+      <div class="sl" id="adv-exp-lbl-wrap">🎭 <span id="adv-exp-lbl">Experiencias</span> <span style="color:var(--text3);font-weight:400;font-size:12px">(opcional)</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
         <button class="adv-tog" id="tog-exp" onclick="toggleAdv('exp')">🎭 Agregar experiencias personales</button>
       </div>
@@ -525,12 +525,12 @@ textarea.ta::placeholder{color:var(--text3)}
           <textarea id="exp-custom" class="field" placeholder="(Opcional) Escribe tu propia experiencia y la incluiremos en el texto... ej: 'al inicio no entendía nada y tuve que leerlo tres veces'" rows="2" style="resize:none;margin-bottom:0;padding-right:14px;font-size:12px;line-height:1.5"></textarea>
         </div>
         <div style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.6">
-          💡 Si no escribes nada, la IA inventa una experiencia que encaje con el texto según el tono elegido.
+          Puedes escribir tu experiencia o elegir una frase de reflexión según el tono.
         </div>
       </div>
 
       <!-- FUENTES -->
-      <div class="sl" style="margin-top:16px" id="adv-src-lbl-wrap">📚 <span id="adv-src-lbl">Fuentes de relleno</span> <span style="color:var(--text3);font-weight:400;font-size:12px">(opcional · puedes elegir varias)</span></div>
+      <div class="sl" style="margin-top:16px" id="adv-src-lbl-wrap">📚 <span id="adv-src-lbl">Fuentes</span> <span style="color:var(--text3);font-weight:400;font-size:12px">(opcional · puedes elegir varias)</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
         <button class="adv-tog" id="tog-src" onclick="toggleAdv('src')">📚 Agregar fuentes</button>
       </div>
@@ -998,7 +998,7 @@ const SOURCES={
 };
 
 const LANGS={
-  es:{hum:'✨ Mejorar texto',lim:'Plan gratis: hasta 150 palabras',sub:'Tu espacio de escritura',
+  es:{hum:'✨ Mejorar texto',lim:'Plan gratis: hasta 150 palabras',sub:'Personaliza el estilo de tu texto',
     nav_login:'Entrar',nav_reg:'Registro gratis',landing_h1:'Tu texto,',landing_em:'voz humana',
     landing_sub:'Dale claridad y fluidez a tus textos.',
     landing_cta:'✨ Comenzar gratis →',landing_plans:'Ver planes',
@@ -1015,7 +1015,7 @@ const LANGS={
     lvl_formal:'Algo formal pero natural',lvl_semi:'Informal pero aprobatorio',lvl_casual:'Casual y coloquial',
     upload_title:'Sube un archivo para mejorar',blocked_title:'Límite alcanzado',blocked_sub:'Se restablece en',
     accel_btn:'⚡ Reducir a 1h — $1.99 USD',upgrade_btn:'⚡ Ir Premium',wcnt_lbl:'palabras',
-    adv_exp:'🎭 Experiencias',adv_src:'📚 Fuentes de relleno',adv_anti:'🔤 Optimización lingüística',adv_pov:'👤 Perspectiva del texto'},
+    adv_exp:'🎭 Experiencias',adv_src:'📚 Fuentes',adv_anti:'🔤 Optimización lingüística',adv_pov:'👤 Perspectiva del texto'},
   en:{hum:'✨ Improve text',lim:'Free plan: up to 150 words',sub:'What text shall we improve today?',
     nav_login:'Sign in',nav_reg:'Register free',landing_h1:'Your text,',landing_em:'human voice',
     landing_sub:'Transform AI-generated text into natural, authentic writing. With the style of your country.',
@@ -1279,18 +1279,23 @@ function cntW(){const t=document.getElementById('inp').value.trim();document.get
 
 // ═══ HUMANIZE ═══
 async function doHumanize(){
-  if(window._humanizeBusy)return;window._humanizeBusy=true;
-  const button=document.getElementById('btnhum');button.disabled=true;
-  try{
-    const text=document.getElementById('inp').value;
-    if(!text.trim()){toast('Escribe o importa un texto primero.','w');return;}
-    const result=TextHumanRules.revise(text,{simplify:S.lang==='es',tone:S.level,country:S.country});
-    const out=document.getElementById('out');out.replaceChildren();const rendered=document.createElement('div');rendered.style.cssText='white-space:pre-wrap;line-height:1.8';rendered.textContent=result.text;out.append(rendered);
-    document.getElementById('btncpy').style.display='flex';
-    const note=document.getElementById('ai-detector-box');note.style.display='block';note.replaceChildren();const title=document.createElement('strong');title.textContent=result.changed?'Cambios realizados':'No se encontraron cambios';note.append(title);const summary=document.createElement('p');summary.style.cssText='font-size:12px;line-height:1.7;margin-top:8px';summary.textContent=result.changes.map(c=>c.rule+': '+c.count).join(' · ')||'No hay cambios que mostrar.';note.append(summary);
-    S._pendingFile=false;
-  }catch(e){toast(e.message,'e');}
-  finally{window._humanizeBusy=false;button.disabled=false;}
+ if(window._humanizeBusy)return;
+ const input=document.getElementById('inp').value;
+ if(!input.trim()){toast('Escribe o importa un texto primero.','w');return;}
+ window._humanizeBusy=true;const button=document.getElementById('btnhum');button.disabled=true;
+ try{
+ const isOpen=id=>document.getElementById(id)?.style.display!=='none';
+ const result=TextHumanRules.revise(input,{
+ lang:S.lang,simplify:true,tone:S.level,country:S.country,purpose:S.purpose,
+ expActive:!!S.expActive,expTone:S.expTone,experience:document.getElementById('exp-custom').value,
+ sourcesActive:isOpen('src-panel'),sources:S.sources,sourceCustom:document.getElementById('src-custom').value,
+ antiActive:!!S.antiActive,antiLevel:S.antiLevel,pov:S.pov,povActive:isOpen('pov-panel')
+ });
+ const output=document.createElement('div');output.style.cssText='white-space:pre-wrap;line-height:1.8';output.textContent=result.text;
+ document.getElementById('out').replaceChildren(output);
+ document.getElementById('btncpy').style.display='flex';
+ document.getElementById('ai-detector-box').style.display='none';S._pendingFile=false;
+ }catch(e){toast(e.message,'e');}finally{window._humanizeBusy=false;button.disabled=false;}
 }
 
 // ═══ FILES ═══
@@ -1582,7 +1587,7 @@ if(window.__runQueue)window.__runQueue();
  procPay=function(){openPayModal()};procAccelPay=function(){openPayModal()};
  const localLabels=()=>{
   document.getElementById('plans-title').textContent='Tu espacio para escribir mejor';document.getElementById('plans-sub').textContent='Para consultas sobre tu cuenta o un pago: texthumanapp@gmail.com.';
-  const copy={feat1_title:'Más claridad',feat1_desc:'Simplifica frases y mejora la lectura de tus textos.',feat2_title:'Estilo de conectores',feat2_desc:'Cambios conservadores de frases y conectores según el tono.',feat3_title:'Texto y documentos',feat3_desc:'Importa PDF con texto, DOCX, PPTX o TXT hasta 5 MB.',feat4_title:'Tu escritura',feat4_desc:'Compara el resultado y elige los cambios que prefieras.'};
+  const copy={feat1_title:'Más claridad',feat1_desc:'Simplifica frases y mejora la lectura de tus textos.',feat2_title:'Estilo de conectores',feat2_desc:'Elige formalidad, país, perspectiva y expresiones para tu texto.',feat3_title:'Texto y documentos',feat3_desc:'Importa PDF con texto, DOCX, PPTX o TXT hasta 5 MB.',feat4_title:'Tu escritura',feat4_desc:'Compara el resultado y elige los cambios que prefieras.'};
   Object.entries(copy).forEach(([key,value])=>document.querySelectorAll('[data-i18n="'+key+'"]').forEach(e=>e.textContent=value));
   const tag=document.querySelector('.ht');if(tag)tag.textContent='Código local, sin llamadas a IA';
   const desc=document.querySelector('#p-landing .hd');if(desc)desc.textContent='Un espacio para mejorar la claridad y fluidez de tus textos.';
@@ -1590,7 +1595,7 @@ if(window.__runQueue)window.__runQueue();
   document.getElementById('landing-h1').textContent='Tu texto, más claro.';
   const sub=document.querySelector('.landing-sub, .hero-sub, .hs');if(sub)sub.textContent='Dale claridad y fluidez a tus textos.';
   document.getElementById('landing-cta').textContent='Abrir editor';document.getElementById('landing-cta').onclick=()=>showPage('app');
-  document.getElementById('btnhum').textContent='Revisar texto';document.getElementById('pnote').textContent='Hasta 100,000 caracteres';
+  document.getElementById('btnhum').textContent='✨ Mejorar texto';document.getElementById('pnote').textContent='Hasta 100,000 caracteres';
   document.querySelectorAll('#p-plans .bpl.buy,#p-plans .buy').forEach(b=>{b.textContent='Abrir editor local';b.onclick=()=>showPage('app');});
  };
  const previousApplyLang=applyLang;applyLang=function(){previousApplyLang();localLabels()};
